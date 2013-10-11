@@ -10,3 +10,4 @@
   {{/ tutorials.all }}
 </ul>
 
+<p class="center">Nothing here yet! Come back later!</p>
