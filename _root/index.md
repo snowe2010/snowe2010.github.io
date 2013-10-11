@@ -1,3 +1,6 @@
+---
+title: "42"
+---
 ## My Life
 
 I was born in Texas. I grew up in Waco. I now live in Colorado, where I'm a student at the Colorado School of Mines. I currently work for Recondo Technology located in Greenwood Village, CO, where my job is Software Testing. 
