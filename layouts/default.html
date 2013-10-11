@@ -7,23 +7,31 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="author" content="{{ data.author.name }}">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:700' rel='stylesheet' type='text/css'>
     {{# page.description }}
       <meta name="description" content="{{ . }}">
     {{/ page.description }}
-      <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The order these are loaded in matters! -->
     {{# stylesheets.load }}
       styles.css
-      zenburn.css
+      shCore.css
+      shThemeDefault.css
     {{/ stylesheets.load }}
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> -->
+     
   </head>
   <body>
     <div class="wrapper">
       <header>
-        <h1 style="display: inline-block;">Tyler Thrailkill</h1>
-        <p>Don't look back</p>
-        <p>
+        <h1 class="center">Tyler Thrailkill</h1>
+        <p class="center">Don't look back</p>
+        <p class="center">
+          <a href="/">Home</a>
+          <span>   |   </span>
           <a href="/blog">Blog</a>
           <span>   |   </span>
           <a href="/tutorials">Tutorials</a>
@@ -34,39 +42,31 @@
 
       <section>
         <div id='content'>
-          <pre id="brush: rb">
-            def test_of_syntax_highlighting(params)
-            end
-          </pre>
-          <pre class="brush: rb"><code>
-            def test_of_syntax_highlighting(params)
-              puts @variable.inspect
-              @var.each do |something|
-                test.something
-              end
-            end
-
-            class Mod 
-              def meth
-                puts hello
-              end
-            end
-          </code></pre>
           {{{content}}}
         </div>
       </section>
 
     </div>
-    {{# javascripts.load }}
-      scale.fix.js
-      highlight.pack.js
-    {{/ javascripts.load }}
 
-    <script>hljs.initHighlightingOnLoad();</script>
+    <!--<script>hljs.initHighlightingOnLoad();</script>-->
     <footer>
       <p class="view">
         Made with help from <a href="http://www.ruhoh.com">Ruhoh</a>
       </p>
     </footer>
+    <!-- <script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+      'js jscript javascript /javascripts/shBrushJScript.js'
+    );
+    SyntaxHighlighter.all();
+    </script> -->
+    {{# javascripts.load }}
+      scale.fix.js
+      xregexp.js
+      shCore.js
+      shBrushRuby.js
+      shBrushBash.js
+    {{/ javascripts.load }}
+    <script type="text/javascript">SyntaxHighlighter.all()</script>
   </body>
 </html>

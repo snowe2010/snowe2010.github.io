@@ -1,5 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
 
+html {overflow-y: scroll;} /*prevent shifting when scrollbar appears*/
+
 body {
   padding:50px;
   font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -21,11 +23,13 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size:28px;
+  font-size:42px;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 h2 {
-  color:#393939;
+  /*color:#393939;*/
+  color: #8812FF;
 }
 
 h3, h4, h5, h6 {
@@ -56,12 +60,15 @@ blockquote {
   padding:0 0 0 20px;
   font-style:italic;
 }
-/*
-code, pre {
+
+code { /*pre*/
   font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color:#333;
+  color:#8812FF;
   font-size:12px;
-}*/
+  border-radius: 5px;
+  border:1px solid #e5e5e5;
+  padding: 2px;
+}
 
 /*pre {
   padding:8px 15px;
@@ -288,4 +295,17 @@ ul li {
 
 .align-even {
   float: right;
+}
+
+ul.match-width {
+  -webkit-padding-start: 0px;
+}
+
+h2 a {
+  color: rgb(200,100,255); /* match hr */
+  font-weight: 400;
+}
+
+.center {
+  text-align: center;
 }

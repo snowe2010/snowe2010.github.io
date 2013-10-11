@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<ul>
+<ul class="match-width">
   {{# blog.all.sort }}
   <li>
     <h2><a href="{{url}}">{{title}}</a></h2>
