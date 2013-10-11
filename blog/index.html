@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blog</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="author" content="">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:700' rel='stylesheet' type='text/css'>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The order these are loaded in matters! -->
+<link href='/assets/stylesheets/styles-915b9fa4317b2700f04698bd56164bae.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/shCore-0969b3fc3af7af035c78184b616783c0.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/shThemeDefault-13e44eeac32bb6cfab28ef952d5df928.css' type='text/css' rel='stylesheet' media='all'>    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> -->
+     
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="center">Tyler Thrailkill</h1>
+        <p class="center">Don't look back</p>
+        <p class="center">
+          <a href="/">Home</a>
+          <span>   |   </span>
+            <a href="/blog">Blog</a>
+            <span>   |   </span>
+            <a href="/tutorials">Tutorials</a>
+            <span>   |   </span>
+<!--           <a href="/blog">Blog</a>
+          <span>   |   </span>
+          <a href="/tutorials">Tutorials</a>
+          <span>   |   </span> -->
+          <a href="https://github.com/snowe2010">GitHub</a>
+        </p>
+      </header>
+
+      <section>
+        <div id='content'>
+          <ul class="match-width">
+  <li>
+    <h2><a href="/blog/move-to-ruhoh-from-jekyll">Move to Ruhoh from Jekyll</a></h2>
+    <div class="summary">
+<h3 id="toc_0">Ruhoh, a better Jekyll</h3>
+
+<p>I've begun a move over to the Ruhoh platform. One of the main reasons for this is because I absolutely hate the Liquid Templating system used by Jekyll. 
+Ruhoh uses Moustache which seems to be a much nicer choice overall. Also Ruhoh separates everything nice and neat like. </p>
+
+<ul>
+<li>Content</li>
+<li>Views</li>
+<li>Presentation</li>
+</ul>
+
+<p>So I don't need to worry about my presentation until I've actually gotten content. 
+Another great this is that handling folders and links is a thousand times easier in Ruhoh. </p>
+
+<p>Hopefully this platform goes better than Jekyll. If not I don't know what I'll do.</p>
+
+<p></div>
+    <a href="/blog/move-to-ruhoh-from-jekyll">read post...</a>
+  </li>
+  <br/>
+  <hr class="style-two">
+  <li>
+    <h2><a href="/blog/fignewton-with-rspec">Problems with Fig Newton, RSpec, and Cheezy&#39;s Cucumber &amp; Cheese</a></h2>
+    <div class="summary">
+<p>I use Watir-webdriver, PageObject, and several other gems (at the instruction of Jeff &quot;Cheezy&quot; Morgan), for my job. Currently I&#39;ve been writing tests to perform some functions that business people have no care or need to know about. Because there is no need to have business rules for these tests, I&#39;m using RSpec instead of Cucumber. I have Cucumber tests to run all of the business rules that the BA&#39;s need to know about and RSpec tests for those side scripts or non-business side of things. I&#39;ve also read up extensively on Jeff&#39;s Cucumber &amp; Cheese book, though I had forgotten several key points. </p></p>
+
+<p>For these tests I was trying to load Default Data for different environments, and therefore I was using Jeff's FigNewton gem. FigNewton allows the use of different configuration files based on the environment the script is being run from. For this you need to place require 'fig<em>newton' in the correct place and also call FigNewton.load('local.yml') with whatever file you want to load. If you don't want to use a specific file you can leave out the line and it will first look for an ENV variable called FIG</em>NEWTON_FILE, then if that is not found it will look for a file named after the hostname of the computer, and then finally if even that is not found it will look for a file called 'default.yml'. </p>
+
+<p>I was getting errors telling me that it could not find the 'default.yml' file even though I had specified the correct file in the env.rb.</p>
+
+<ol>
+<li>There is a spec_helper.rb file for RSpec that does the same job as the env.rb file for Cucumber. For some reason I believed that RSpec was using the env.rb file, which caused a lot of problems. </li>
+<li>I am also using a gem specified by Jeff called require_all. This gem requires all files in a directory you specify, and it was in the line directly above my FigNewton call. This was causing the FigNewton line to never get called. I'm fuzzy on the details right now about why, so I'll update this post at a later time when I've figured it out.<br>
+</li>
+</ol>
+
+<p>After moving the line "FigNewton.load('local.yml')" above the "require<em>all 'lib'" line, and also placing it in the spec</em>helper.rb file, I was finally able to use default data. </p>
+
+<p></div>
+    <a href="/blog/fignewton-with-rspec">read post...</a>
+  </li>
+  <br/>
+  <hr class="style-two">
+  <li>
+    <h2><a href="/blog/logging-my-errors">Logging My Errors</a></h2>
+    <div class="summary"><p>This is the story of my life. The problems I&#39;ve come across and the solutions I&#39;ve used to solve them. Not just compile time errors, or problems debugging, but the relationships in my life also. This is a manifesto of the reasons I chose to do specific things, why I am the way I am, and how I deal with those around me. This is my life.  </p></div>
+    <a href="/blog/logging-my-errors">read post...</a>
+  </li>
+  <br/>
+  <hr class="style-two">
+</ul></p>
+
+<!-- 
+<div class="page">
+  <h3 class="title"><a href="/blog/move-to-ruhoh-from-jekyll">Move to Ruhoh from Jekyll</a></h3><h5 class="align-even"><span class="date">2013-10-09</span></h5>
+  <div class="summary">
+<h3 id="toc_0">Ruhoh, a better Jekyll</h3>
+
+<p>I've begun a move over to the Ruhoh platform. One of the main reasons for this is because I absolutely hate the Liquid Templating system used by Jekyll. 
+Ruhoh uses Moustache which seems to be a much nicer choice overall. Also Ruhoh separates everything nice and neat like. </p>
+
+<ul>
+<li>Content</li>
+<li>Views</li>
+<li>Presentation</li>
+</ul>
+<p>So I don't need to worry about my presentation until I've actually gotten content. 
+Another great this is that handling folders and links is a thousand times easier in Ruhoh. </p>
+
+<p>Hopefully this platform goes better than Jekyll. If not I don't know what I'll do.</p>
+</div>
+  <div class="more">
+    <a href="/blog/move-to-ruhoh-from-jekyll" class="btn">read post..</a>
+  </div>
+  <br/>
+  <hr class="style-two">
+</div>
+
+<div class="page">
+  <h3 class="title"><a href="/blog/fignewton-with-rspec">Problems with Fig Newton, RSpec, and Cheezy's Cucumber &amp; Cheese</a></h3><h5 class="align-even"><span class="date">2013-06-01</span></h5>
+  <div class="summary">
+<p>I use Watir-webdriver, PageObject, and several other gems (at the instruction of Jeff "Cheezy" Morgan), for my job. Currently I've been writing tests to perform some functions that business people have no care or need to know about. Because there is no need to have business rules for these tests, I'm using RSpec instead of Cucumber. I have Cucumber tests to run all of the business rules that the BA's need to know about and RSpec tests for those side scripts or non-business side of things. I've also read up extensively on Jeff's Cucumber &amp; Cheese book, though I had forgotten several key points. </p>
+
+<p>For these tests I was trying to load Default Data for different environments, and therefore I was using Jeff's FigNewton gem. FigNewton allows the use of different configuration files based on the environment the script is being run from. For this you need to place require 'fig<em>newton' in the correct place and also call FigNewton.load('local.yml') with whatever file you want to load. If you don't want to use a specific file you can leave out the line and it will first look for an ENV variable called FIG</em>NEWTON_FILE, then if that is not found it will look for a file named after the hostname of the computer, and then finally if even that is not found it will look for a file called 'default.yml'. </p>
+
+<p>I was getting errors telling me that it could not find the 'default.yml' file even though I had specified the correct file in the env.rb.</p>
+
+<ol>
+<li>There is a spec_helper.rb file for RSpec that does the same job as the env.rb file for Cucumber. For some reason I believed that RSpec was using the env.rb file, which caused a lot of problems. </li>
+<li>I am also using a gem specified by Jeff called require_all. This gem requires all files in a directory you specify, and it was in the line directly above my FigNewton call. This was causing the FigNewton line to never get called. I'm fuzzy on the details right now about why, so I'll update this post at a later time when I've figured it out.<br>
+</li>
+</ol>
+<p>After moving the line "FigNewton.load('local.yml')" above the "require<em>all 'lib'" line, and also placing it in the spec</em>helper.rb file, I was finally able to use default data. </p>
+</div>
+  <div class="more">
+    <a href="/blog/fignewton-with-rspec" class="btn">read post..</a>
+  </div>
+  <br/>
+  <hr class="style-two">
+</div>
+
+<div class="page">
+  <h3 class="title"><a href="/blog/logging-my-errors">Logging My Errors</a></h3><h5 class="align-even"><span class="date">2013-04-26</span></h5>
+  <div class="summary"><p>This is the story of my life. The problems I've come across and the solutions I've used to solve them. Not just compile time errors, or problems debugging, but the relationships in my life also. This is a manifesto of the reasons I chose to do specific things, why I am the way I am, and how I deal with those around me. This is my life.  </p></div>
+  <div class="more">
+    <a href="/blog/logging-my-errors" class="btn">read post..</a>
+  </div>
+  <br/>
+  <hr class="style-two">
+</div>
+
+ -->
+
+        </div>
+      </section>
+
+      <footer>
+        <p class="center">
+          Made with help from <a href="http://www.ruhoh.com">Ruhoh</a>
+        </p>
+      </footer>
+    </div>
+
+    <!--<script>hljs.initHighlightingOnLoad();</script>-->
+    <!-- <script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+      'js jscript javascript /javascripts/shBrushJScript.js'
+    );
+    SyntaxHighlighter.all();
+    </script> -->
+<script src='/assets/javascripts/scale.fix-6c7cd2e1afbc835c560f40088cc7bb58.js'></script>
+<script src='/assets/javascripts/xregexp-a8c7768607f3b33fc89520269971579c.js'></script>
+<script src='/assets/javascripts/shCore-cb81904a22637564ac1494b8a90402c2.js'></script>
+<script src='/assets/javascripts/shBrushRuby-939dcd4b6443aab246d7a57c2b507021.js'></script>
+<script src='/assets/javascripts/shBrushBash-529a321bb449306e60ea89663738ad7b.js'></script>    <script type="text/javascript">SyntaxHighlighter.all()</script>
+  </body>
+</html>

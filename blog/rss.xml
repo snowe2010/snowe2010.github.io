@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+    <title/>
+    <description/>
+    <link>http://ajourneyinerrors.nfshost.com</link>
+    <pubDate>2013-10-11</pubDate>
+    <item>
+      <title>Move to Ruhoh from Jekyll</title>
+      <link>http://ajourneyinerrors.nfshost.com/blog/move-to-ruhoh-from-jekyll</link>
+      <pubDate>2013-10-09</pubDate>
+      <description>&lt;h3 id="toc_0"&gt;Ruhoh, a better Jekyll&lt;/h3&gt;
+
+&lt;p&gt;I&amp;#39;ve begun a move over to the Ruhoh platform. One of the main reasons for this is because I absolutely hate the Liquid Templating system used by Jekyll. 
+Ruhoh uses Moustache which seems to be a much nicer choice overall. Also Ruhoh separates everything nice and neat like. &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Content&lt;/li&gt;
+&lt;li&gt;Views&lt;/li&gt;
+&lt;li&gt;Presentation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So I don&amp;#39;t need to worry about my presentation until I&amp;#39;ve actually gotten content. 
+Another great this is that handling folders and links is a thousand times easier in Ruhoh. &lt;/p&gt;
+
+&lt;p&gt;Hopefully this platform goes better than Jekyll. If not I don&amp;#39;t know what I&amp;#39;ll do.&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Problems with Fig Newton, RSpec, and Cheezy's Cucumber &amp; Cheese</title>
+      <link>http://ajourneyinerrors.nfshost.com/blog/fignewton-with-rspec</link>
+      <pubDate>2013-06-01</pubDate>
+      <description>&lt;p&gt;I use Watir-webdriver, PageObject, and several other gems (at the instruction of Jeff &amp;quot;Cheezy&amp;quot; Morgan), for my job. Currently I&amp;#39;ve been writing tests to perform some functions that business people have no care or need to know about. Because there is no need to have business rules for these tests, I&amp;#39;m using RSpec instead of Cucumber. I have Cucumber tests to run all of the business rules that the BA&amp;#39;s need to know about and RSpec tests for those side scripts or non-business side of things. I&amp;#39;ve also read up extensively on Jeff&amp;#39;s Cucumber &amp;amp; Cheese book, though I had forgotten several key points. &lt;/p&gt;
+
+&lt;p&gt;For these tests I was trying to load Default Data for different environments, and therefore I was using Jeff&amp;#39;s FigNewton gem. FigNewton allows the use of different configuration files based on the environment the script is being run from. For this you need to place require &amp;#39;fig&lt;em&gt;newton&amp;#39; in the correct place and also call FigNewton.load(&amp;#39;local.yml&amp;#39;) with whatever file you want to load. If you don&amp;#39;t want to use a specific file you can leave out the line and it will first look for an ENV variable called FIG&lt;/em&gt;NEWTON_FILE, then if that is not found it will look for a file named after the hostname of the computer, and then finally if even that is not found it will look for a file called &amp;#39;default.yml&amp;#39;. &lt;/p&gt;
+
+&lt;p&gt;I was getting errors telling me that it could not find the &amp;#39;default.yml&amp;#39; file even though I had specified the correct file in the env.rb.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;There is a spec_helper.rb file for RSpec that does the same job as the env.rb file for Cucumber. For some reason I believed that RSpec was using the env.rb file, which caused a lot of problems. &lt;/li&gt;
+&lt;li&gt;I am also using a gem specified by Jeff called require_all. This gem requires all files in a directory you specify, and it was in the line directly above my FigNewton call. This was causing the FigNewton line to never get called. I&amp;#39;m fuzzy on the details right now about why, so I&amp;#39;ll update this post at a later time when I&amp;#39;ve figured it out.&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After moving the line &amp;quot;FigNewton.load(&amp;#39;local.yml&amp;#39;)&amp;quot; above the &amp;quot;require&lt;em&gt;all &amp;#39;lib&amp;#39;&amp;quot; line, and also placing it in the spec&lt;/em&gt;helper.rb file, I was finally able to use default data. &lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Logging My Errors</title>
+      <link>http://ajourneyinerrors.nfshost.com/blog/logging-my-errors</link>
+      <pubDate>2013-04-26</pubDate>
+      <description>&lt;p&gt;This is the story of my life. The problems I&amp;#39;ve come across and the solutions I&amp;#39;ve used to solve them. Not just compile time errors, or problems debugging, but the relationships in my life also. This is a manifesto of the reasons I chose to do specific things, why I am the way I am, and how I deal with those around me. This is my life.  &lt;/p&gt;
+</description>
+    </item>
+  </channel>
+</rss>
