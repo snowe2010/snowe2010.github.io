@@ -4,7 +4,67 @@
     <title/>
     <description/>
     <link>http://ajourneyinerrors.nfshost.com</link>
-    <pubDate>2013-10-11</pubDate>
+    <pubDate>2013-10-13</pubDate>
+    <item>
+      <title>Rewriting Sytax Highlighter</title>
+      <link>http://ajourneyinerrors.nfshost.com/blog/sytaxhighlighter-and-a-rewrite</link>
+      <pubDate>2013-10-13</pubDate>
+      <description>&lt;p&gt;I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. I used code sections to make things easier, and for that I had to find a good syntax highlighter. I didn&amp;#39;t like the way that Google&amp;#39;s PrettyPrint worked and I couldn&amp;#39;t get SyntaxHighlighter to work (which I later discovered was just because I didn&amp;#39;t understand javascript very well) so I went through a ton of different syntax highlighters until I finally learned enough JS from those that I realized I was an idiot when trying to use SyntaxHighlighter.&lt;/p&gt;
+
+&lt;p&gt;As a result of all this, I&amp;#39;ve learned very well how to use Chrome&amp;#39;s javascript debugging and breakpoints. The better lesson is, I learned that syntax highlighting is more difficult than it looks :| I&amp;#39;ll try to cover some of these difficulties below.&lt;/p&gt;
+
+&lt;p&gt;It started when I began to try and make SyntaxHighlighter highlight more things (for Ruby it doesn&amp;#39;t highlight the method name or the parameters). I thought this would be easy, because in the brushes you can just define a regex to highlight what you want. Yay, so all I need to do is check for def followed by a name up to a space or a parens. This can be done with something along the lines of this regex:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/(?&amp;lt;=def\s)(\w+\b)\??/g
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Essentially all this does is find the word following def. &lt;/p&gt;
+
+&lt;p&gt;Nope. Not that easy. Javascript doesn&amp;#39;t support positive or negative lookbehind. Hmm what can I do? Ok I can write a regex to just not capture the def! That can be done like this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/(?:def\s)(\w+\b)\??/g
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nope. No it can&amp;#39;t because even though javascript won&amp;#39;t capture that group, it will still match the whole thing :|, while returning a second match of just the captured group. This would work fine if I could somehow figure out how to return just the second match. Well here&amp;#39;s the code, maybe you can see the problem.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class="brush:js"&gt;function getMatches(code, regexInfo)
+{
+  function defaultAdd(match, regexInfo)
+  {
+    return match[0];
+  };
+
+  var index = 0,
+    match = null,
+    matches = [],
+    func = regexInfo.func ? regexInfo.func : defaultAdd
+    pos = 0
+    ;
+
+  while((match = XRegExp.exec(code, regexInfo.regex, pos)) != null)
+  {
+    var resultMatch = func(match, regexInfo);
+
+    if (typeof(resultMatch) == &amp;#39;string&amp;#39;)
+      resultMatch = [new sh.Match(resultMatch, match.index, regexInfo.css)];
+
+    matches = matches.concat(resultMatch);
+    pos = match.index + match[0].length;
+  }
+
+  return matches;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you can see, we always return the first match, oh but wait, it looks like we can give it a function to return a different match! Sweet, let&amp;#39;s do that.&lt;/p&gt;
+
+&lt;p&gt;Well this appeared to work for a few seconds, then I noticed that now even though stuff was highlighted properly, the word &amp;quot;def&amp;quot; was missing from every single definition. It was now replaced by the method name, and then part of the method name would repeat for no reason. What was going on. &lt;/p&gt;
+
+&lt;p&gt;It turns out that the original writer of the plugin would pull out things that matched multiple times, instead of coding it in a way that didn&amp;#39;t require that. As it is, I&amp;#39;m stuck and my code blocks aren&amp;#39;t going to look very good for a while. &lt;/p&gt;
+
+&lt;p&gt;Shoot. &lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Move to Ruhoh from Jekyll</title>
       <link>http://ajourneyinerrors.nfshost.com/blog/move-to-ruhoh-from-jekyll</link>

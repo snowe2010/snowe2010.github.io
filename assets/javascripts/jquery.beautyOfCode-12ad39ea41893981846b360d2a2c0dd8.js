@@ -9,6 +9,7 @@ Source: https://bitbucket.org/larscorneliussen/beautyofcode/
 Version: 0.2
 */
 
+
 jQuery.beautyOfCode = {
 
     settings: {
