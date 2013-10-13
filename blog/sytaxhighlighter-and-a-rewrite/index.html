@@ -39,23 +39,38 @@
 
       <section>
         <div id='content'>
-          <p>I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. I used code sections to make things easier, and for that I had to find a good syntax highlighter. I didn&#39;t like the way that Google&#39;s PrettyPrint worked and I couldn&#39;t get SyntaxHighlighter to work (which I later discovered was just because I didn&#39;t understand javascript very well) so I went through a ton of different syntax highlighters until I finally learned enough JS from those that I realized I was an idiot when trying to use SyntaxHighlighter.</p>
+          <p>I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. 
+I used code sections to make things easier, and for that I had to find a good syntax highlighter. 
+I didn&#39;t like the way that Google&#39;s PrettyPrint worked and I couldn&#39;t get SyntaxHighlighter to work 
+(which I later discovered was just because I didn&#39;t understand javascript very well) so I went through 
+a ton of different syntax highlighters until I finally learned enough JS from those that I realized 
+I was an idiot when trying to use SyntaxHighlighter.</p>
 
-<p>As a result of all this, I&#39;ve learned very well how to use Chrome&#39;s javascript debugging and breakpoints. The better lesson is, I learned that syntax highlighting is more difficult than it looks :| I&#39;ll try to cover some of these difficulties below.</p>
+<p>As a result of all this, I&#39;ve learned very well how to use Chrome&#39;s javascript debugging and breakpoints. 
+The better lesson is, I learned that syntax highlighting is more difficult than it looks :| 
+I&#39;ll try to cover some of these difficulties below.</p>
 
-<p>It started when I began to try and make SyntaxHighlighter highlight more things (for Ruby it doesn&#39;t highlight the method name or the parameters). I thought this would be easy, because in the brushes you can just define a regex to highlight what you want. Yay, so all I need to do is check for def followed by a name up to a space or a parens. This can be done with something along the lines of this regex:</p>
+<p>It started when I began to try and make SyntaxHighlighter highlight more things 
+(for Ruby it doesn&#39;t highlight the method name or the parameters). 
+I thought this would be easy, because in the brushes you can just define a regex to highlight what you want. 
+Yay, so all I need to do is check for def followed by a name up to a space or a parens. 
+This can be done with something along the lines of this regex:</p>
 
 <pre><code>/(?&lt;=def\s)(\w+\b)\??/g
 </code></pre>
 
 <p>Essentially all this does is find the word following def. </p>
 
-<p>Nope. Not that easy. Javascript doesn&#39;t support positive or negative lookbehind. Hmm what can I do? Ok I can write a regex to just not capture the def! That can be done like this</p>
+<p>Nope. Not that easy. Javascript doesn&#39;t support positive or negative lookbehind. 
+Hmm what can I do? Ok I can write a regex to just not capture the def! That can be done like this</p>
 
 <pre><code>/(?:def\s)(\w+\b)\??/g
 </code></pre>
 
-<p>Nope. No it can&#39;t because even though javascript won&#39;t capture that group, it will still match the whole thing :|, while returning a second match of just the captured group. This would work fine if I could somehow figure out how to return just the second match. Well here&#39;s the code, maybe you can see the problem.</p>
+<p>Nope. No it can&#39;t because even though javascript won&#39;t capture that group, 
+it will still match the whole thing :|, while returning a second match of just the captured group. 
+This would work fine if I could somehow figure out how to return just the second match. 
+Well here&#39;s the code, maybe you can see the problem.</p>
 
 <pre><code class="brush:js">function getMatches(code, regexInfo)
 {
@@ -86,11 +101,17 @@
 };
 </code></pre>
 
-<p>As you can see, we always return the first match, oh but wait, it looks like we can give it a function to return a different match! Sweet, let&#39;s do that.</p>
+<p>As you can see, we always return the first match, oh but wait, it looks like 
+we can give it a function to return a different match! Sweet, let&#39;s do that.</p>
 
-<p>Well this appeared to work for a few seconds, then I noticed that now even though stuff was highlighted properly, the word &quot;def&quot; was missing from every single definition. It was now replaced by the method name, and then part of the method name would repeat for no reason. What was going on. </p>
+<p>Well this appeared to work for a few seconds, then I noticed that now even 
+though stuff was highlighted properly, the word &quot;def&quot; was missing from every 
+single definition. It was now replaced by the method name, and then part of 
+the method name would repeat for no reason. What was going on. </p>
 
-<p>It turns out that the original writer of the plugin would pull out things that matched multiple times, instead of coding it in a way that didn&#39;t require that. As it is, I&#39;m stuck and my code blocks aren&#39;t going to look very good for a while. </p>
+<p>It turns out that the original writer of the plugin would pull out things 
+that matched multiple times, instead of coding it in a way that didn&#39;t require that. 
+As it is, I&#39;m stuck and my code blocks aren&#39;t going to look very good for a while. </p>
 
 <p>Shoot. </p>
 

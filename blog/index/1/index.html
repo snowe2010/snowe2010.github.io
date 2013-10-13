@@ -4,52 +4,17 @@
         <h3 class="title"><a href="/blog/sytaxhighlighter-and-a-rewrite">Rewriting Sytax Highlighter</a> <span class="date">2013-10-13</span></h3>
 
         <div class="summary ellipsis">
-<p>I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. I used code sections to make things easier, and for that I had to find a good syntax highlighter. I didn't like the way that Google's PrettyPrint worked and I couldn't get SyntaxHighlighter to work (which I later discovered was just because I didn't understand javascript very well) so I went through a ton of different syntax highlighters until I finally learned enough JS from those that I realized I was an idiot when trying to use SyntaxHighlighter.</p>
+<p>I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. 
+I used code sections to make things easier, and for that I had to find a good syntax highlighter. 
+I didn't like the way that Google's PrettyPrint worked and I couldn't get SyntaxHighlighter to work 
+(which I later discovered was just because I didn't understand javascript very well) so I went through 
+a ton of different syntax highlighters until I finally learned enough JS from those that I realized 
+I was an idiot when trying to use SyntaxHighlighter.</p>
 
-<p>As a result of all this, I've learned very well how to use Chrome's javascript debugging and breakpoints. The better lesson is, I learned that syntax highlighting is more difficult than it looks :| I'll try to cover some of these difficulties below.</p>
+<p>As a result of all this, I've learned very well how to use Chrome's javascript debugging and breakpoints. 
+The better lesson is, I learned that syntax highlighting is more difficult than it looks :| 
+I'll try to cover some of these difficulties below.</p>
 
-<p>It started when I began to try and make SyntaxHighlighter highlight more things (for Ruby it doesn't highlight the method name or the parameters). I thought this would be easy, because in the brushes you can just define a regex to highlight what you want. Yay, so all I need to do is check for def followed by a name up to a space or a parens. This can be done with something along the lines of this regex:</p>
-
-<pre><code>/(?&lt;=def\s)(\w+\b)\??/g
-</code></pre>
-
-<p>Essentially all this does is find the word following def. </p>
-
-<p>Nope. Not that easy. Javascript doesn't support positive or negative lookbehind. Hmm what can I do? Ok I can write a regex to just not capture the def! That can be done like this</p>
-
-<pre><code>/(?:def\s)(\w+\b)\??/g
-</code></pre>
-
-<p>Nope. No it can't because even though javascript won't capture that group, it will still match the whole thing :|, while returning a second match of just the captured group. This would work fine if I could somehow figure out how to return just the second match. Well here's the code, maybe you can see the problem.</p>
-
-<pre><code class="brush:js">function getMatches(code, regexInfo)
-{
-  function defaultAdd(match, regexInfo)
-  {
-    return match[0];
-  };
-
-  var index = 0,
-    match = null,
-    matches = [],
-    func = regexInfo.func ? regexInfo.func : defaultAdd
-    pos = 0
-    ;
-
-  while((match = XRegExp.exec(code, regexInfo.regex, pos)) != null)
-  {
-    var resultMatch = func(match, regexInfo);
-
-    if (typeof(resultMatch) == 'string')
-      resultMatch = [new sh.Match(resultMatch, match.index, regexInfo.css)];
-
-    matches = matches.concat(resultMatch);
-    pos = match.index + match[0].length;
-  }
-
-  return matches;
-};
-</code></pre>
 </div>
 
         <div class="more">
@@ -59,7 +24,7 @@
       <div class="blog">
         <h3 class="title"><a href="/blog/move-to-ruhoh-from-jekyll">Move to Ruhoh from Jekyll</a> <span class="date">2013-10-09</span></h3>
 
-        <div class="summary">
+        <div class="summary ellipsis">
 <h3 id="toc_0">Ruhoh, a better Jekyll</h3>
 
 <p>I've begun a move over to the Ruhoh platform. One of the main reasons for this is because I absolutely hate the Liquid Templating system used by Jekyll. 
@@ -73,7 +38,6 @@ Ruhoh uses Moustache which seems to be a much nicer choice overall. Also Ruhoh s
 <p>So I don't need to worry about my presentation until I've actually gotten content. 
 Another great this is that handling folders and links is a thousand times easier in Ruhoh. </p>
 
-<p>Hopefully this platform goes better than Jekyll. If not I don't know what I'll do.</p>
 </div>
 
         <div class="more">
@@ -83,19 +47,26 @@ Another great this is that handling folders and links is a thousand times easier
       <div class="blog">
         <h3 class="title"><a href="/blog/fignewton-with-rspec">Problems with Fig Newton, RSpec, and Cheezy's Cucumber &amp; Cheese</a> <span class="date">2013-06-01</span></h3>
 
-        <div class="summary">
-<p>I use Watir-webdriver, PageObject, and several other gems (at the instruction of Jeff "Cheezy" Morgan), for my job. Currently I've been writing tests to perform some functions that business people have no care or need to know about. Because there is no need to have business rules for these tests, I'm using RSpec instead of Cucumber. I have Cucumber tests to run all of the business rules that the BA's need to know about and RSpec tests for those side scripts or non-business side of things. I've also read up extensively on Jeff's Cucumber &amp; Cheese book, though I had forgotten several key points. </p>
+        <div class="summary ellipsis">
+<p>I use Watir-webdriver, PageObject, and several other gems 
+(at the instruction of Jeff "Cheezy" Morgan), for my job. 
+Currently I've been writing tests to perform some functions 
+that business people have no care or need to know about. 
+Because there is no need to have business rules for these tests, 
+I'm using RSpec instead of Cucumber. I have Cucumber tests to run 
+all of the business rules that the BA's need to know about and RSpec 
+tests for those side scripts or non-business side of things. I've also 
+read up extensively on Jeff's Cucumber &amp; Cheese book, though I had forgotten several key points. </p>
 
-<p>For these tests I was trying to load Default Data for different environments, and therefore I was using Jeff's FigNewton gem. FigNewton allows the use of different configuration files based on the environment the script is being run from. For this you need to place require 'fig<em>newton' in the correct place and also call FigNewton.load('local.yml') with whatever file you want to load. If you don't want to use a specific file you can leave out the line and it will first look for an ENV variable called FIG</em>NEWTON_FILE, then if that is not found it will look for a file named after the hostname of the computer, and then finally if even that is not found it will look for a file called 'default.yml'. </p>
-
-<p>I was getting errors telling me that it could not find the 'default.yml' file even though I had specified the correct file in the env.rb.</p>
-
-<ol>
-<li>There is a spec_helper.rb file for RSpec that does the same job as the env.rb file for Cucumber. For some reason I believed that RSpec was using the env.rb file, which caused a lot of problems. </li>
-<li>I am also using a gem specified by Jeff called require_all. This gem requires all files in a directory you specify, and it was in the line directly above my FigNewton call. This was causing the FigNewton line to never get called. I'm fuzzy on the details right now about why, so I'll update this post at a later time when I've figured it out.<br>
-</li>
-</ol>
-<p>After moving the line "FigNewton.load('local.yml')" above the "require<em>all 'lib'" line, and also placing it in the spec</em>helper.rb file, I was finally able to use default data. </p>
+<p>For these tests I was trying to load Default Data for different environments, 
+and therefore I was using Jeff's FigNewton gem. FigNewton allows the use of 
+different configuration files based on the environment the script is being run from. 
+For this you need to place require 'fig<em>newton' in the correct place and also call 
+FigNewton.load('local.yml') with whatever file you want to load. 
+If you don't want to use a specific file you can leave out the line and it will 
+first look for an ENV variable called FIG</em>NEWTON_FILE, then if that is not found 
+it will look for a file named after the hostname of the computer, and then finally 
+if even that is not found it will look for a file called 'default.yml'. </p>
 </div>
 
         <div class="more">
