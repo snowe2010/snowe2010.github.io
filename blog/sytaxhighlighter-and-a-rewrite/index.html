@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Rewriting Sytax Highlighter</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="author" content="">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:700' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/ico" href="/assets/media/favicon.ico" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The order these are loaded in matters! -->
+<link href='/assets/stylesheets/application-fd8ca49a90c9d67a956e2f642a19ac2d.css' type='text/css' rel='stylesheet' media='all'>    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> -->
+     
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="center">Tyler Thrailkill</h1>
+        <p class="center">Don't look back</p>
+        <p class="center">
+          <a href="/">Home</a>
+          <span>   |   </span>
+            <a href="/blog">Blog</a>
+            <span>   |   </span>
+            <a href="/tutorials">Tutorials</a>
+            <span>   |   </span>
+<!--           <a href="/blog">Blog</a>
+          <span>   |   </span>
+          <a href="/tutorials">Tutorials</a>
+          <span>   |   </span> -->
+          <a href="https://github.com/snowe2010">GitHub</a>
+        </p>
+      </header>
+
+      <section>
+        <div id='content'>
+          <p>I started the tutorials section by trying to write a post about how to get Ruhoh up and running nice and quick. I used code sections to make things easier, and for that I had to find a good syntax highlighter. I didn&#39;t like the way that Google&#39;s PrettyPrint worked and I couldn&#39;t get SyntaxHighlighter to work (which I later discovered was just because I didn&#39;t understand javascript very well) so I went through a ton of different syntax highlighters until I finally learned enough JS from those that I realized I was an idiot when trying to use SyntaxHighlighter.</p>
+
+<p>As a result of all this, I&#39;ve learned very well how to use Chrome&#39;s javascript debugging and breakpoints. The better lesson is, I learned that syntax highlighting is more difficult than it looks :| I&#39;ll try to cover some of these difficulties below.</p>
+
+<p>It started when I began to try and make SyntaxHighlighter highlight more things (for Ruby it doesn&#39;t highlight the method name or the parameters). I thought this would be easy, because in the brushes you can just define a regex to highlight what you want. Yay, so all I need to do is check for def followed by a name up to a space or a parens. This can be done with something along the lines of this regex:</p>
+
+<pre><code>/(?&lt;=def\s)(\w+\b)\??/g
+</code></pre>
+
+<p>Essentially all this does is find the word following def. </p>
+
+<p>Nope. Not that easy. Javascript doesn&#39;t support positive or negative lookbehind. Hmm what can I do? Ok I can write a regex to just not capture the def! That can be done like this</p>
+
+<pre><code>/(?:def\s)(\w+\b)\??/g
+</code></pre>
+
+<p>Nope. No it can&#39;t because even though javascript won&#39;t capture that group, it will still match the whole thing :|, while returning a second match of just the captured group. This would work fine if I could somehow figure out how to return just the second match. Well here&#39;s the code, maybe you can see the problem.</p>
+
+<pre><code class="brush:js">function getMatches(code, regexInfo)
+{
+  function defaultAdd(match, regexInfo)
+  {
+    return match[0];
+  };
+
+  var index = 0,
+    match = null,
+    matches = [],
+    func = regexInfo.func ? regexInfo.func : defaultAdd
+    pos = 0
+    ;
+
+  while((match = XRegExp.exec(code, regexInfo.regex, pos)) != null)
+  {
+    var resultMatch = func(match, regexInfo);
+
+    if (typeof(resultMatch) == &#39;string&#39;)
+      resultMatch = [new sh.Match(resultMatch, match.index, regexInfo.css)];
+
+    matches = matches.concat(resultMatch);
+    pos = match.index + match[0].length;
+  }
+
+  return matches;
+};
+</code></pre>
+
+<p>As you can see, we always return the first match, oh but wait, it looks like we can give it a function to return a different match! Sweet, let&#39;s do that.</p>
+
+<p>Well this appeared to work for a few seconds, then I noticed that now even though stuff was highlighted properly, the word &quot;def&quot; was missing from every single definition. It was now replaced by the method name, and then part of the method name would repeat for no reason. What was going on. </p>
+
+<p>It turns out that the original writer of the plugin would pull out things that matched multiple times, instead of coding it in a way that didn&#39;t require that. As it is, I&#39;m stuck and my code blocks aren&#39;t going to look very good for a while. </p>
+
+<p>Shoot. </p>
+
+        </div>
+      </section>
+
+      <footer>
+        <p class="center">
+          Made with help from <a href="http://www.ruhoh.com">Ruhoh</a>
+        </p>
+      </footer>
+    </div>
+
+    <!--<script>hljs.initHighlightingOnLoad();</script>-->
+    <!-- <script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+      'js jscript javascript /javascripts/shBrushJScript.js'
+    );
+    SyntaxHighlighter.all();
+    </script> -->
+<script src='/assets/javascripts/scale.fix-f7736ab1033c51ea1f4c8397e4131b1c.js'></script>
+<script src='/assets/javascripts/xregexp-2b91e2dbb307a53c8d6af7a806870d77.js'></script>
+<script src='/assets/javascripts/shCore-daa70ea0cff90d27767e25bb1c8bc48d.js'></script>
+<script src='/assets/javascripts/shBrushRuby-a0447d373e9d936385c5c782895acf97.js'></script>
+<script src='/assets/javascripts/shBrushBash-96a534eaa68ee037bc23142d61395dab.js'></script>
+<script src='/assets/javascripts/shBrushJScript-26914069dd90d5742c7ec47643cb3449.js'></script>    <script type="text/javascript">SyntaxHighlighter.all()</script>
+  </body>
+</html>
