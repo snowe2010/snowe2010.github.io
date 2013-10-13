@@ -10,6 +10,7 @@ blog:
     enable: true
     sort: ["date", "desc"]
     per_page: 5
+  summary_lines: 10
 
 tutorials:
   layout: default
