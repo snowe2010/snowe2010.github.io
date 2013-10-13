@@ -12,6 +12,35 @@ This is a tutorial about how to get Ruhoh up and running without reading thousan
 
 ## Step 1. Install it ##
 
+```brush:rb
+require 'sass'
+
+# this is a fake class showing the use of code blocks
+module HelpClass
+  class Model < SuperClass
+    include APage
+    attr_accessor :help, :me
+  
+    A_CONSTANT = :idk
+
+    def initialize params
+      puts "I hope this works, because this is highlighted blue and #{this should be highlighted something else}"
+      puts @help
+      @@me
+      $write.each do |test|
+        test.each
+      end
+    end
+
+    def test_another(callsomething = 0, something = true, somt = nil, som = false)
+      something.init (true)
+      chain.of.methods
+      numbers = [1,2,3,4,5,6]
+    end
+  end
+end
+```
+
 Prerequisites: Ruby 1.9
 
 The first step is to create the directory where you want your website to be stored. 

@@ -1,0 +1,40 @@
+// Snowe2010 SyntaxHighlighter theme 
+// http://www.vim.org/scripts/script.php?script_id=1732
+
+$background:                    #2B2A27 !default;
+
+$line_highlighted_background:   #323E41 !default;
+$line_highlighted_number:       #b9bdb6 !default;
+
+$gutter_text:                   #afafaf !default;
+$gutter_border_color:           #435a5f !default;
+
+$toolbar_collapsed_a:           #5ba1cf !default;
+$toolbar_collapsed_a_hover:     #5ce638 !default;
+$toolbar_collapsed_background:  #000    !default;
+
+$toolbar_a:                     #fff    !default;
+$toolbar_a_hover:               #e0e8ff !default;
+
+//corresponds to class_name, module_name,
+//method_name, method_parameters_definition, and includes
+$code_plain:                    #fff !default; //changed
+// comments, as you would guess
+$code_comments:                 #bcdef0 !default; //changed
+// changes strings "" and '' (i'm assuming)
+$code_string:                   #cdef01 !default; //changed
+// ruby: changes module, class, def, end, each, do, true, nil, false
+$code_keyword:                  #def012 !default; //changed
+// stuff like #include for c++ and c
+$code_preprocessor:             #ef0123 !default; //changed
+// ruby: @, @@, and $ variables
+$code_variable:                 #f01234 !default; //changed
+// 
+$code_value:                    #012345 !default; //changed
+$code_functions:                #123456 !default; //changed
+$code_constants:                #234567 !default; //changed
+$code_color1:                   #345678 !default;
+$code_color2:                   #456789 !default;
+$code_color3:                   #fff !default;
+
+@import "_theme_template.scss";
