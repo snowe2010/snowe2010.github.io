@@ -51,7 +51,8 @@ a small {
 }
 
 .wrapper {
-  width:860px;
+  /*width:860px;*/
+  width: 80%;
   margin:0 auto;
 }
 
@@ -168,8 +169,9 @@ header ul a strong {
 }
 
 section {
-  width:500px;
-  float:right;
+  /*width:500px;*/
+  width: 60%;
+  float: right;
   padding-bottom:50px;
 }
 
@@ -229,7 +231,7 @@ footer {
   }
   
   header {
-    padding-right:320px;
+    padding-right:0px;
   }
   
   section {
