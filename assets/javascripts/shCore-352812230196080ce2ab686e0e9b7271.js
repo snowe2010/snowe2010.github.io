@@ -1352,9 +1352,11 @@ sh.Highlighter.prototype = {
 				{
 					var split_matches = itemI.value.split(itemJ.value)
 					matches[i].value = split_matches[0]
+					matches[i].length = matches[i].value.length
+					itemIEndPos = matches[i].index + matches[i].length
 					var end_match_index = itemJ.index + itemJ.length
-					var end_match = [new sh.Match(split_matches[1], end_match_index, matches[i].css, itemI.nonest)];
-					matches = matches.concat(end_match);
+					var end_match = new sh.Match(split_matches[1], end_match_index, matches[i].css, itemI.nonest);
+					matches.splice(i+2, 0, end_match);
 				}
 				else if (itemJ.index >= itemI.index && itemJ.index < itemIEndPos && itemI.nonest == true)
 					matches[j] = null;
