@@ -643,11 +643,9 @@ function alert(str)
  */
 function findBrush(alias, showAlert)
 {
-  console.log("hello")
 	var brushes = sh.vars.discoveredBrushes,
 		result = null
 		;
-    console.log(brushes)
 	if (brushes == null)
 	{
 		brushes = {};
@@ -1016,9 +1014,14 @@ function getMatches(code, regexInfo)
 	while((match = XRegExp.exec(code, regexInfo.regex, pos)) != null)
 	{
 		var resultMatch = func(match, regexInfo);
+		var real_index = match.index;
+		var nonest = regexInfo.nonest ? regexInfo.nonest : false
+		
+		if (regexInfo.func) 
+			real_index += (match[0].length - match[1].length) 
 
 		if (typeof(resultMatch) == 'string')
-			resultMatch = [new sh.Match(resultMatch, match.index, regexInfo.css)];
+			resultMatch = [new sh.Match(resultMatch, real_index, regexInfo.css, nonest)];
 
 		matches = matches.concat(resultMatch);
 		pos = match.index + match[0].length;
@@ -1162,13 +1165,14 @@ function quickCodeHandler(e)
 /**
  * Match object.
  */
-sh.Match = function(value, index, css)
+sh.Match = function(value, index, css, nonest)
 {
 	this.value = value;
 	this.index = index;
 	this.length = value.length;
 	this.css = css;
 	this.brushName = null;
+	this.nonest = nonest
 };
 
 sh.Match.prototype.toString = function()
@@ -1342,9 +1346,19 @@ sh.Highlighter.prototype = {
 					continue;
 				else if (itemJ.index > itemIEndPos)
 					break;
-				else if (itemJ.index == itemI.index && itemJ.length > itemI.length)
+				else if (itemJ.index == itemI.index && itemJ.length > itemI.length && itemI.nonest == true)
 					matches[i] = null;
-				else if (itemJ.index >= itemI.index && itemJ.index < itemIEndPos)
+				else if (itemJ.index >= itemI.index && itemJ.index < itemIEndPos && itemI.nonest == false)
+				{
+					var split_matches = itemI.value.split(itemJ.value)
+					matches[i].value = split_matches[0]
+					matches[i].length = matches[i].value.length
+					itemIEndPos = matches[i].index + matches[i].length
+					var end_match_index = itemJ.index + itemJ.length
+					var end_match = new sh.Match(split_matches[1], end_match_index, matches[i].css, itemI.nonest);
+					matches.splice(i+2, 0, end_match);
+				}
+				else if (itemJ.index >= itemI.index && itemJ.index < itemIEndPos && itemI.nonest == true)
 					matches[j] = null;
 			}
 		}

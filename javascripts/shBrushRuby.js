@@ -18,17 +18,17 @@
     var returnSecond = function addOne(match, regexInfo){ return match[1]; };
 
     this.regexList = [
-      { regex: /#[^{].*[^}]/g,                                      css: 'comments',              nonest: true,   priority: 1                       },    // one line comments
-      { regex: /".*?"/g,                                            css: 'string',                nonest: true,   priority: 2                       },    // double quoted strings
-      { regex: SyntaxHighlighter.regexLib.singleQuotedString,       css: 'string',                nonest: false,  priority: 1                       },    // single quoted strings
-      //{ regex: /#{.*}/g,                                          css: 'string_interpolation',  nonest: false,  priority: 3                       },    // string interpolation
-      { regex: /\b[A-Z0-9_]+\b/g,                                  css: 'constants',             nonest: false,  priority: 3                       },    // constants
-      { regex: /\B:[a-z][A-Za-z0-9_]*\b/g,                          css: 'color2',                nonest: false,  priority: 3                       },    // symbols
-      { regex: /(?:def\s)(\w+\b)/g,                                 css: 'color3',                nonest: false,  priority: 3, func: returnSecond   },    // method name
-      { regex: /\b(?:def\s\w.*?(\?|\b))(.*)/g,                      css: 'parameters',                nonest: false,  priority: 3, func: returnSecond   },
-      { regex: /(\$|@@|@)\w+/g,                                     css: 'variable bold',         nonest: false,  priority: 3                       },    // $global, @instance, and @@class variables
-      { regex: new RegExp(this.getKeywords(keywords), 'gm'),        css: 'keyword',               nonest: false,  priority: 3                       },    // keywords
-      { regex: new RegExp(this.getKeywords(builtins), 'gm'),        css: 'color1',                nonest: false,  priority: 3                       }     // builtins
+      { regex: /#[^{].*[^}]/g,                                css: 'comments',              nonest: true,   priority: 1                       },    // one line comments
+      { regex: /".*?"/g,                                      css: 'string',                nonest: true,   priority: 2                       },    // double quoted strings
+      { regex: SyntaxHighlighter.regexLib.singleQuotedString, css: 'string',                nonest: false,  priority: 1                       },    // single quoted strings
+      //{ regex: /#{.*}/g,                                    css: 'string_interpolation',  nonest: false,  priority: 3                       },    // string interpolation
+      { regex: /\b[A-Z0-9_]+\b/g,                             css: 'constants',             nonest: false,  priority: 3                       },    // constants
+      { regex: /\B:[a-z][A-Za-z0-9_]*\b/g,                    css: 'color2',                nonest: false,  priority: 3                       },    // symbols
+      { regex: /(?:def\s)(\w+\b)/g,                           css: 'color3',                nonest: false,  priority: 3, func: returnSecond   },    // method name
+      { regex: /\b(?:def\s\w.*?(?:\?|\b))(.*)/g,              css: 'color1',            nonest: false,  priority: 3, func: returnSecond   },
+      { regex: /(\$|@@|@)\w+/g,                               css: 'variable bold',         nonest: false,  priority: 3                       },    // $global, @instance, and @@class variables
+      { regex: new RegExp(this.getKeywords(keywords), 'gm'),  css: 'keyword',               nonest: false,  priority: 3                       },    // keywords
+      { regex: new RegExp(this.getKeywords(builtins), 'gm'),  css: 'color1',                nonest: false,  priority: 3                       }     // builtins
       ];
 
     this.forHtmlScript(SyntaxHighlighter.regexLib.aspScriptTags);

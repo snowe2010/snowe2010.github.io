@@ -3,7 +3,7 @@
 
 $background:                    #2B2A27 !default;
 
-$line_highlighted_background:   #323E41 !default;
+$line_highlighted_background:   #403C37 !default;
 $line_highlighted_number:       #b9bdb6 !default;
 
 $gutter_text:                   #afafaf !default;
@@ -20,20 +20,20 @@ $toolbar_a_hover:               #e0e8ff !default;
 //method_name, method_parameters_definition, and includes
 $code_plain:                    #fff !default; //changed
 // comments, as you would guess
-$code_comments:                 #bcdef0 !default; //changed
+$code_comments:                 #7A7267 !default; //changed
 // changes strings "" and '' (i'm assuming)
-$code_string:                   #cdef01 !default; //changed
+$code_string:                   #BCD42A !default; //changed
 // ruby: changes module, class, def, end, each, do, true, nil, false
-$code_keyword:                  #def012 !default; //changed
+$code_keyword:                  #26A6A6 !default; //changed
 // stuff like #include for c++ and c
 $code_preprocessor:             #ef0123 !default; //changed
 // ruby: @, @@, and $ variables
 $code_variable:                 #f01234 !default; //changed
 // 
 $code_value:                    #012345 !default; //changed
-$code_functions:                #123456 !default; //changed
-$code_constants:                #234567 !default; //changed
-$code_color1:                   #345678 !default;
+$code_functions:                #BCD42A !default; //changed
+$code_constants:                #FF5D38 !default; //changed
+$code_color1:                   #FF5D38 !default;
 $code_color2:                   #456789 !default;
 $code_color3:                   #fff !default;
 
