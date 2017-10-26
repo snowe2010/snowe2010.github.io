@@ -46,37 +46,35 @@ body
         text-decoration: none;
         line-height: 1.1;
         color: #222;
-
   .page-content
     grid-area: content;
     .home
       margin: 0 30px;
       .post-list
         list-style: none;
-        li
-          display: grid;
-          grid-template-rows: 30px 20px auto 50px;
-          grid-template-areas:
-                  "post-title"\
-                  "post-metadata"\
-                  "post-excerpt"\
-                  "read-more";
-          .post-title
-            grid-area: post-title;
-            justify-self: center;
-          .post-meta
-            grid-area: post-metadata;
-            font-size: .8em;
-            list-style: none;
-            justify-self: center;
-          .post-excerpt
-            grid-area: post-excerpt;
-          .read-more-link
-            grid-area: read-more;
-            align-self: center;
   .site-footer
     grid-area: footer;
 
+.pretty-post
+  display: grid;
+  grid-template-rows: 30px 20px auto 30px;
+  grid-template-areas:
+          "post-title"\
+          "post-metadata"\
+          "post-body"\
+          "read-more";
+  .post-title
+    grid-area: post-title;
+    justify-self: center;
+  .post-meta
+    grid-area: post-metadata;
+    font-size: .8em;
+    list-style: none;
+    justify-self: center;
+  .post-body
+    grid-area: post-body;
+  .read-more-link
+    grid-area: read-more;
 
 hr.style-two
   border: 0;
@@ -95,3 +93,6 @@ hr
 h2 a
   color: rgb(200,100,255);
   font-weight: 400;
+
+p
+  margin-bottom: 20px

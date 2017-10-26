@@ -13,9 +13,9 @@ layout: default
                 <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
             </h2>
 
-            <p class="post-excerpt">
-                {{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' | strip_html }}
-            </p>
+            <div class="post-body">
+                {{ post.excerpt | markdownify }}
+            </div>
 
             {% if post.excerpt != post.content %}
             <a class="read-more-link" href="{{ site.baseurl }}{{ post.url }}">read post...</a>
