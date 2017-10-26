@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<div class="home">
+    <ul class="post-list">
+        {% for post in site.posts %}
+        <li class="pretty-post">
+            {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+            <span class="post-meta">{{ post.date | date: date_format }}</span>
+
+            <h2 class="post-title">
+                <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+            </h2>
+
+            <p class="post-excerpt">
+                {{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' | strip_html }}
+            </p>
+
+            {% if post.excerpt != post.content %}
+            <a class="read-more-link" href="{{ site.baseurl }}{{ post.url }}">read post...</a>
+            {% endif %}
+
+            <hr class="style-two smaller">
+        </li>
+        {% endfor %}
+    </ul>
+</div>

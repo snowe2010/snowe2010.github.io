@@ -1,0 +1,25 @@
+{
+  "name": "tylerthrailkill.com",
+  "version": "1.0.0",
+  "description": "Tyler Thrailkill's Jekyll Site, these are necessary plugins from npm",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snowe2010/ajourneyinerrors.git"
+  },
+  "keywords": [
+    "jekyll"
+  ],
+  "author": "Tyler Barrett Thrailkill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snowe2010/ajourneyinerrors/issues"
+  },
+  "homepage": "https://github.com/snowe2010/ajourneyinerrors#readme",
+  "dependencies": {
+    "pug-cli": "^1.0.0-alpha6"
+  }
+}
