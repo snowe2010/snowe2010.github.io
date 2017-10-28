@@ -73,7 +73,6 @@ DEPENDENCIES
   jekyll-gist
   jekyll-pug
   minima (~> 2.0)
-  rouge
   stylus
   tzinfo-data
 
