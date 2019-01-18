@@ -58,13 +58,14 @@ kramdown:
 nav:
   - name:           "About"
     url:            "/about"
+  # - name:           "setup"
+    # url:            "/setup"
   - name:           "Archive"
     url:            "/archive"
   - name:           "Tags"
     url:            "/tags"
   - name:           "Github"
     url:            "https://github.com/snowe2010/"
-
 # Sass
 sass:
   sass_dir:         _sass
