@@ -58,8 +58,8 @@ kramdown:
 nav:
   - name:           "About"
     url:            "/about"
-  # - name:           "setup"
-    # url:            "/setup"
+  - name:           "setup"
+    url:            "/setup"
   - name:           "Archive"
     url:            "/archive"
   - name:           "Tags"
