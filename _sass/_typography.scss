@@ -10,6 +10,8 @@ body {
   font-weight: 400;
   color: var(--text-color);
   background-color: var(--background-color);
+  transition: background 100ms ease;
+  transition: color 100ms ease;
   -webkit-font-smoothing: antialiased;
 
   @media (max-width: 38rem){
