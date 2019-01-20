@@ -3,6 +3,9 @@
 /*--------------
   Body
   -------------- */
+body * {
+  transition: background-color 400ms ease, color 400ms ease;
+}
 
 body {
   font: $base-font;
@@ -10,8 +13,7 @@ body {
   font-weight: 400;
   color: var(--text-color);
   background-color: var(--background-color);
-  transition: background 100ms ease;
-  transition: color 100ms ease;
+  transition: background-color 400ms ease, color 400ms ease;
   -webkit-font-smoothing: antialiased;
 
   @media (max-width: 38rem){
