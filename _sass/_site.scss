@@ -42,7 +42,7 @@ body {
     font-weight: 600;
 
     a {
-      color: $base-color;
+      color: var(--base-color);
       &:hover,
       &:focus {
         text-decoration: none;
@@ -50,14 +50,14 @@ body {
     }
 
     span {
-      color: $oc-gray-5;
+      color: var(--oc-gray-5);
     }
 
   }
 
   &-nav {
     a {
-      color: $oc-gray-7;
+      color: var(--oc-gray-7);
       text-transform: lowercase;
       -webkit-transition: all .2s ease;
          -moz-transition: all .2s ease;
@@ -66,7 +66,7 @@ body {
 
       &:hover,
       &:focus {
-        color: $oc-gray-7;
+        color: var(--oc-gray-7);
         text-decoration: none;
       }
     }
@@ -81,7 +81,7 @@ body {
   text-transform: uppercase;
 
   a {
-    color: $base-color;
+    color: var(--base-color);
 
     &:hover,
     &:focus {
@@ -120,7 +120,7 @@ body {
 
   &-date {
     margin-bottom: .5rem;
-    color: $oc-gray-8;
+    color: var(--oc-gray-8);
     font-size: .75rem;
     text-transform: uppercase;
   }
@@ -145,8 +145,8 @@ body {
           display: inline-block;
           margin: 4px;
           margin-left: 0px;
-          color: $oc-white;
-          background-color: $oc-gray-6;
+          color: var(--oc-white);
+          background-color: var(--oc-gray-6);
           text-decoration: none;
           border-radius: 3px;
 
@@ -157,15 +157,15 @@ body {
         }
 
         a:hover {
-          background-color: $oc-gray-7;
+          background-color: var(--oc-gray-7);
         }
 
         a:visited {
-          background-color: $oc-gray-5;
+          background-color: var(--oc-gray-5);
         }
 
         a:visited:hover {
-          background-color: $oc-gray-7;
+          background-color: var(--oc-gray-7);
         }
       }
     }
@@ -186,13 +186,13 @@ body {
     padding: 4% 2%;
     
     &:hover {
-      background-color: $background-over-color;
+      background-color: var(--background-over-color);
       border-color: transparent;
       border-radius: 10px;
     }
 
     a {
-      color: $base-color;
+      color: var(--base-color);
 
       &:hover,
       &:focus {
@@ -207,13 +207,13 @@ body {
     }
 
     &-date {
-      color: $base-lighten-color;
+      color: var(--base-lighten-color);
       font-size: .8rem;
       text-transform: uppercase;
     }
 
     &-desc {
-      color: $base-color;
+      color: var(--base-color);
       margin-bottom: .25rem;
       font-size :1rem;
     }
@@ -229,11 +229,11 @@ body {
       float: left;
       padding-left: 2%;
       a {
-        color: $oc-gray-6;
+        color: var(--oc-gray-6);
 
         &:hover,
         &:focus {
-          color: $oc-gray-7;
+          color: var(--oc-gray-7);
           text-decoration: none;
         }
       }
@@ -243,10 +243,10 @@ body {
       float: right;
       padding-right: 2%;
       a {
-        color: $oc-gray-6;
+        color: var(--oc-gray-6);
 
         &:hover {
-          color: $oc-gray-7;
+          color: var(--oc-gray-7);
           text-decoration: none;
         }
       }
@@ -276,8 +276,8 @@ body {
           display: inline-block;
           margin: 4px;
           margin-left: 0px;
-          color: $oc-white;
-          background-color: $oc-gray-6;
+          color: var(--oc-white);
+          background-color: var(--oc-gray-6);
           text-decoration: none;
           border-radius: 3px;
 
@@ -287,13 +287,13 @@ body {
           }
 
           .count {
-            background-color: $oc-gray-7;
+            background-color: var(--oc-gray-7);
             border-radius: 0 3px 3px 0;
           }
         }
 
         a:hover {
-          background-color: $oc-gray-7;
+          background-color: var(--oc-gray-7);
         }
       }
     }
@@ -308,7 +308,7 @@ body {
 
   &-post {
     a {
-      color: $base-color;
+      color: var(--base-color);
 
       &:hover,
       &:focus {
@@ -317,9 +317,9 @@ body {
     }
 
     &:hover {
-      color: $base-color;
+      color: var(--base-color);
       text-decoration: none;
-      background-color: $background-over-color;
+      background-color: var(--background-over-color);
       border-color: transparent;
       }
   }
@@ -334,12 +334,12 @@ body {
       padding: 0.1rem;
 
       &:hover {
-          background-color: $background-over-color;
+          background-color: var(--background-over-color);
           border-color: transparent;
       }
 
       a {
-        color: $base-color;
+        color: var(--base-color);
 
         &:hover,
         &:focus {
@@ -353,14 +353,18 @@ body {
       }
 
       &-date {
-        color: $base-lighten-color;
+        color: var(--base-lighten-color);
         font-size: .75rem;
         text-transform: uppercase;
       }
     }
   }
 }
-
+.note {
+  margin-left: 40px;
+  border-left: var(--oc-violet-6 solid);
+  padding-left: 20px;
+}
 
 /*--------------
   Footer
@@ -373,7 +377,7 @@ body {
     margin: .2rem;
 
     a {
-      color: $base-color;
+      color: var(--base-color);
       margin: 4px;
     }
   }

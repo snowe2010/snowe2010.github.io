@@ -8,8 +8,8 @@ body {
   font: $base-font;
   font-size: $base-font-size;
   font-weight: 400;
-  color: $text-color;
-  background-color: $background-color;
+  color: var(--text-color);
+  background-color: var(--background-color);
   -webkit-font-smoothing: antialiased;
 
   @media (max-width: 38rem){
@@ -22,7 +22,7 @@ body {
   Link
   -------------- */
 a {
-  color: $link-color;
+  color: var(--link-color);
   text-decoration: none;
 
   &:hover,
@@ -70,7 +70,7 @@ h5 {
 
 h6 { 
   font-size: 1em;
-  color: $oc-gray-6; 
+  color: var(--oc-gray-6); 
 }
 
 /*--------------
@@ -78,7 +78,7 @@ h6 {
   -------------- */
 
 p {
-  color: $text-color;
+  color: var(--text-color);
   margin: 0 0 1rem;
   line-height: 1.7em;
 }
@@ -191,7 +191,7 @@ dd {
 
 hr {
   border: 0;
-  border-top: 1px solid $divider-color;
+  border-top: 1px solid var(--divider-color);
   margin: 1.5rem auto;
 }
 
@@ -215,8 +215,8 @@ abbr[title] {
 blockquote {
   padding: 0 0 0 1.4rem;
   margin: 0 2rem 1rem 0;
-  color: $oc-gray-6;
-  border-left: .3rem solid $oc-gray-3;
+  color: var(--oc-gray-6);
+  border-left: .3rem solid var(--oc-gray-3);
 
   p:last-child {
     margin-bottom: 0;
@@ -237,20 +237,20 @@ a.footnote {
     font-size: $base-font-size-sm;
     text-align: center;
     -webkit-text-stroke: 0.25px;
-    border: 1px solid $divider-color;
+    border: 1px solid var(--divider-color);
     border-radius: 2px;
     -webkit-transition: 0.2s ease-out all;
     text-decoration: none;
 
     &:hover {
-      background: $background-over-color;
+      background: var(--background-over-color);
     }
   }
 }
 .footnotes {
   margin: 4rem 0;
   padding: 2rem 1em;
-  border-top: 1px solid $divider-color;
+  border-top: 1px solid var(--divider-color);
   font-size: $base-font-size-sm;
 }
 
@@ -266,8 +266,8 @@ pre {
 code {
   padding: .25em .5em;
   font-size: 85%;
-  color: $code-color;
-  background-color: $code-background-color;
+  color: var(--code-color);
+  background-color: var(--code-background-color);
   border-radius: 3px;
 }
 
@@ -280,7 +280,7 @@ pre {
   line-height: 1.4;
   white-space: pre;
   overflow: auto;
-  background-color: $code-background-color;
+  background-color: var(--code-background-color);
 }
 
 pre code {
@@ -346,19 +346,19 @@ img {
 table {
   margin-bottom: 1rem;
   width: 100%;
-  border: 1px solid $table-border-color;
+  border: 1px solid var(--table-border-color);
   border-collapse: collapse;
 }
 
 td,
 th {
   padding: .25rem .5rem;
-  border: 1px solid $table-border-color;
+  border: 1px solid var(--table-border-color);
 }
 
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th {
-  background-color: $table-background-color;
+  background-color: var(--table-background-color);
 }
 
 /*--------------
