@@ -16,21 +16,22 @@ $mobile-font-size: 16px;
 /*--------------
   Color
   -------------- */
-$base-color: $oc-gray-8;
-$base-lighten-color: $oc-gray-6;
+:root {
+  --base-color: var(--oc-gray-8);
+  --base-lighten-color: var(--oc-gray-6);
 
-$background-color: $oc-white;
-$background-over-color: $oc-gray-1;
+  --background-color: var(--oc-white);
+  --background-over-color: var(--oc-gray-1);
 
-$text-color: $oc-gray-8;
-$link-color: $oc-blue-8;
-$code-color: $oc-indigo-9;
-$code-background-color: $oc-gray-1;
-$table-border-color: $oc-gray-2;
-$table-background-color: $oc-gray-1;
+  --text-color: var(--oc-gray-8);
+  --link-color: var(--oc-blue-8);
+  --code-color: var(--oc-indigo-9);
+  --code-background-color: var(--oc-gray-1);
+  --table-border-color: var(--oc-gray-2);
+  --table-background-color: var(--oc-gray-1);
 
-$divider-color: $oc-gray-1;
-
+  --divider-color: var(--oc-gray-1);
+}
 
 /*--------------
   List
