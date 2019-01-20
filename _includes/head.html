@@ -1,4 +1,23 @@
 <head>
+  <script>
+    window.onload = function() {
+      document.getElementById("toggle--daynight").onclick = function fun() {
+        var store = window.localStorage;
+        let night = store.getItem('nightMode');
+        let root = document.documentElement;
+        console.log(night);
+        if (night === true) {
+          console.log("setting to false");
+          root.style.setProperty('--background-color', '#fff');
+          store.setItem('nightMode', false);
+        } else {
+          console.log("setting to true");
+          store.setItem('nightMode', true);
+          root.style.setProperty('--background-color', "#000");
+        }
+      }
+    }
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}</title>
