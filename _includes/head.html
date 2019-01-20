@@ -6,13 +6,13 @@
         let night = store.getItem('nightMode');
         let root = document.documentElement;
         console.log(night);
-        if (night === true) {
+        if (night === 'true') {
           console.log("setting to false");
           root.style.setProperty('--background-color', '#fff');
-          store.setItem('nightMode', false);
+          store.setItem('nightMode', 'false');
         } else {
           console.log("setting to true");
-          store.setItem('nightMode', true);
+          store.setItem('nightMode', 'true');
           root.style.setProperty('--background-color', "#000");
         }
       }
