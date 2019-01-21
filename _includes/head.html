@@ -4,9 +4,7 @@
       let root = document.documentElement;
       var store = window.localStorage;
       var night = store.getItem('nightMode');
-      console.log(`night ${night}`)
       if (!night) {
-        console.log('defaulting to light');
         night = 'light'; // default to light 
       }
       if (night === 'light') {
@@ -46,6 +44,7 @@
         root.style.setProperty('--divider-color', 'var(--so-base2)');
         document.getElementById("toggle--daynight").checked = true;
       }
+
       document.documentElement.classList.add(night);
       document.getElementById("toggle--daynight").onclick = function toggle() {
         let night = store.getItem('nightMode');
