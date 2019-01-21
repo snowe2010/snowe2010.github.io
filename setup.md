@@ -34,88 +34,89 @@ These are the applications that stay up in my menu bar.
 They usually don't get interacted with via window. 
 
 
-| Tool | Use Case |
-|--------:|:-------|
-| Bartender 3   |  organize my menubar, hide things like dropbox, google file stream, sophos   |
-| Hammerspoon   | large suite of tools. see my dotfiles for more info   |
-| HyperSwitch   |  alt-tab like windows   |
-| iStat Menus   | information about my computer like memory, temperature, intensive applications   |
-| JetBrains Toolbox   |  Update/Install manager for JetBrains tools   |
-| Karabiner-Elements   | key binding tool for Mac  |
-| Dropbox   |  file syncing software   |
-| BetterTouchTool   | key binding tool for Mac  |
-| Google FileStream   |  file syncing tool for work   |
-| OneHighlighter   |  paste prettier code in OneNote   |
-|=====
+| Tool                 | Use Case                                                                       |
+|---------------------:|:-------------------------------------------------------------------------------|
+| Bartender 3          | organize my menubar, hide things like dropbox, google file stream, sophos      |
+| Hammerspoon          | large suite of tools. see my dotfiles for more info                            |
+| HyperSwitch          | alt-tab like windows                                                           |
+| iStat Menus          | information about my computer like memory, temperature, intensive applications |
+| JetBrains Toolbox    | Update/Install manager for JetBrains tools                                     |
+| Karabiner-Elements   | key binding tool for Mac                                                       |
+| Dropbox              | file syncing software                                                          |
+| BetterTouchTool      | key binding tool for Mac                                                       |
+| Google FileStream    | file syncing tool for work                                                     |
+| OneHighlighter       | paste prettier code in OneNote                                                 |
+|======================
 
 ## Applications
 
 These are generic applications that I install every time I 
 set up a new mac. 
 
-| Tool | Use Case |
-|--------:|:-------|
-| Discord               | communication tool |
-| Fantastical 2         | best calendar app  |
-| Firefox               | best browser  |
-| GIF Brewery 3         | tool for creating gifs for documentation or requesting help   |
-| Google Chrome Canary  | browser for testing work code   |
-| GPG Keychain          | gpg keychain   |
-| GraphiQL              | for testing graphql queries   |
-| IntelliJ IDEA         |  Large IDE for all development   |
-| iTerm 3               | good term emulator  |
+
+| Tool                  | Use Case                                                                 |
+|----------------------:|:-------------------------------------------------------------------------|
+| Discord               | communication tool                                                       |
+| Fantastical 2         | best calendar app                                                        |
+| Firefox               | best browser                                                             |
+| GIF Brewery 3         | tool for creating gifs for documentation or requesting help              |
+| Google Chrome Canary  | browser for testing work code                                            |
+| GPG Keychain          | gpg keychain                                                             |
+| GraphiQL              | for testing graphql queries                                              |
+| IntelliJ IDEA         | Large IDE for all development                                            |
+| iTerm 3               | good term emulator                                                       |
 | KeyCastr              | for debugging keyboard, or for sharing keypresses during presentations   |
-| Kitematic   |  for watching docker containers   |
-| LastPass   |  easiest way to use LastPass   |
-| Microsoft OneNote   |  for taking notes, knowledge base, etc.   |
-| Postbox   | better mail client   |
-| Postman  | perform API calls   |
-| QMK Toolbox | Tool for reflashing keyboard firmware   |
-| RubyMine   | best ruby IDE |
-| Slack   | team communication tool. work, kotlin, and gradle communities  |
-| Sonos | music streaming app for smart speakers  |
-| Spotify   |  music streaming service   |
-| Steam   |  video game platform   |
-| Sublime Merge   |  git merge tool, used for diffs, staging, and stashes   |
-| Sublime Text   | extremely fast text edit tool   |
-| The Unarchiver   |  unzip things   |
-| UniFi  |  management controller for Unifi APs   |
-| Visual Studio Code   | nice text editor   |
-| XCode | mac and iOS development   |
-| zoom.us | best video conferencing I've found   |
-|=====
+| Kitematic             | for watching docker containers                                           |
+| LastPass              | easiest way to use LastPass                                              |
+| Microsoft OneNote     | for taking notes, knowledge base, etc.                                   |
+| Postbox               | better mail client                                                       |
+| Postman               | perform API calls                                                        |
+| QMK Toolbox           | Tool for reflashing keyboard firmware                                    |
+| RubyMine              | best ruby IDE                                                            |
+| Slack                 | team communication tool. work, kotlin, and gradle communities            |
+| Sonos                 | music streaming app for smart speakers                                   |
+| Spotify               | music streaming service                                                  |
+| Steam                 | video game platform                                                      |
+| Sublime Merge         | git merge tool, used for diffs, staging, and stashes                     |
+| Sublime Text          | extremely fast text edit tool                                            |
+| The Unarchiver        | unzip things                                                             |
+| UniFi                 | management controller for Unifi APs                                      |
+| Visual Studio Code    | nice text editor                                                         |
+| XCode                 | mac and iOS development                                                  |
+| zoom.us               | best video conferencing I've found                                       |
+|=====                  |                                                                          |
 
 ## CLI Tools
 
 Probably the largest list, this is a list of tools I have installed and use on the command line. 
 
-|Tool | Use Case
-|--------:|:-------|
-| tmux                                      | terminal multiplexer. <br/><br/>If you don't know what this means, and you like power. this is power.   |
-| fd                                        | better `find`   |
-| rg                                        |  better `grep`   |
-| fzf                                       | fuzzy file finder, but more   |
-| fzf-marks                                 |  bookmarks using `fzf`   |
-| zgen                                      | zsh package manager. All things below this are zgen packages |
-| zuxfoucault/colored-man-pages_mod         |  colored man pages   |
-|   zsh-users/zsh-syntax-highlighting       |  syntax highlighting when using zsh   |
-|  zsh-users/zsh-history-substring-search   | substring reverse history search inline | 
-|  zsh-users/zsh-autosuggestions            | auto suggest what you should run|
-|  denysdovhan/spaceship-prompt spaceship   | awesome terminal prompt|
-| wfxr/forgit                               | fzf ♥️ git |
-| MikeDacre/careful_rm                      | overrides rm to make it safer and add ability to trash |
-| hlissner/zsh-autopair                     | auto-close and delete matching delimiters  |
-| Tarrasch/zsh-bd                           | jump back directories. has autocomplete as well |
-| RobSis/zsh-completion-generator           | |
-| b4b4r07/emoji-cli                         ||
-| MichaelAquilina/zsh-emojis                ||
-| urbainvaes/fzf-marks                      | fzf ♥️ bookmarks|
-| mroth/git-prompt-useremail                | notifies which email will be used for git commit |
-| caarlos0/zsh-git-sync                     | sync with upstream fork |
-| packruler/zsh-git-scripts                 | remove merged branches, squash branch |
-| jedahan/ripz                              | alias tips in rust. requires ripgrep |
-|peterhurford/up.zsh                        | cd up an arbitrary number of directories with `up <#>` | 
-|=====
+|Tool                                     | Use Case                                                                                                |
+|--------:                                |:-------                                                                                                 |
+| tmux                                    | terminal multiplexer. <br/><br/>If you don't know what this means, and you like power. this is power.   |
+| fd                                      | better `find`                                                                                           |
+| rg                                      |  better `grep`                                                                                          |
+| fzf                                     | fuzzy file finder, but more                                                                             |
+| fzf-marks                               |  bookmarks using `fzf`                                                                                  |
+| zgen                                    | zsh package manager. All things below this are zgen packages                                            |
+| zuxfoucault/colored-man-pages_mod       |  colored man pages                                                                                      |
+| zsh-users/zsh-syntax-highlighting       |  syntax highlighting when using zsh                                                                     |
+| zsh-users/zsh-history-substring-search  | substring reverse history search inline                                                                 |
+| zsh-users/zsh-autosuggestions           | auto suggest what you should run                                                                        |
+| denysdovhan/spaceship-prompt spaceship  | awesome terminal prompt                                                                                 |
+| wfxr/forgit                             | fzf ♥️ git                                                                                               |
+| MikeDacre/careful_rm                    | overrides rm to make it safer and add ability to trash                                                  |
+| hlissner/zsh-autopair                   | auto-close and delete matching delimiters                                                               |
+| Tarrasch/zsh-bd                         | jump back directories. has autocomplete as well                                                         |
+| RobSis/zsh-completion-generator         |                                                                                                         |
+| b4b4r07/emoji-cli                       |                                                                                                         |
+| MichaelAquilina/zsh-emojis              |                                                                                                         |
+| urbainvaes/fzf-marks                    | fzf ♥️ bookmarks                                                                                         |
+| mroth/git-prompt-useremail              | notifies which email will be used for git commit                                                        |
+| caarlos0/zsh-git-sync                   | sync with upstream fork                                                                                 |
+| packruler/zsh-git-scripts               | remove merged branches, squash branch                                                                   |
+| jedahan/ripz                            | alias tips in rust. requires ripgrep                                                                    |
+| peterhurford/up.zsh                     | cd up an arbitrary number of directories with `up <#>`                                                  |
+|=====  
 
 --------
 
@@ -126,84 +127,82 @@ Probably the largest list, this is a list of tools I have installed and use on t
 These are the applications that stay up in my menu bar. 
 They usually don't get interacted with via window. 
 
-
-| Tool | Use Case |
-|--------:|:-------|
-| JetBrains Toolbox   |  Update/Install manager for JetBrains tools    |
-| Dropbox   |  file syncing software   |
-| F.lux   |   warm computer display at night  |
-| Launchy   |  spotlight for windows   |
-| Everything   |  better search   |
-| ShareX   |  screenshot tool. can upload to imgur, etc immediately   |
-| Logitech Gaming Software   |  mouse management   |
-| Backblaze |  backup software   |
-| OpenVPN |  VPN software   |
-| TrueColorPro  | LG monitor color calibration software |
-| F@H | protein folding for science |
-| Google FileStream   |  file syncing software, for Google Photos   |
-|=====
+| Tool                       | Use Case                                                 |
+|---------------------------:|:---------------------------------------------------------|
+| JetBrains Toolbox          | Update/Install manager for JetBrains tools               |
+| Dropbox                    | file syncing software                                    |
+| F.lux                      | warm computer display at night                           |
+| Launchy                    | spotlight for windows                                    |
+| Everything                 | better search                                            |
+| ShareX                     | screenshot tool. can upload to imgur, etc immediately    |
+| Logitech Gaming Software   | mouse management                                         |
+| Backblaze                  | backup software                                          |
+| OpenVPN                    | VPN software                                             |
+| TrueColorPro               | LG monitor color calibration software                    |
+| F@H                        | protein folding for science                              |
+| Google FileStream          | file syncing software, for Google Photos                 |
+|=====                       |                                                          |
 
 ## Applications
 
 These are generic applications that I currently have on my Windows machine. 
 
-| Tool | Use Case |
-|--------:|:-------|
-| Adobe Suite           | for design   |
-| ConEmu                | best windows terminal emulator |
-| Discord               | communication tool |
-| Firefox               | best browser  |
-| Google Chrome         | browser    |
-| IntelliJ IDEA         |  Large IDE for all development   |
-| Kitematic   |  for watching docker containers   |
-| LastPass   |  easiest way to use LastPass   |
-| Microsoft OneNote   |  for taking notes, knowledge base, etc.   |
-| Postman  | perform API calls   |
-| QMK Toolbox | Tool for reflashing keyboard firmware   |
-| RubyMine   | best ruby IDE |
-| Slack   | team communication tool. work, kotlin, and gradle communities  |
-| Sonos | music streaming app for smart speakers  |
-| Spotify   |  music streaming service   |
-| Steam   |  video game platform   |
-| Sublime Merge   |  git merge tool, used for diffs, staging, and stashes   |
-| Sublime Text   | extremely fast text edit tool   |
-| UniFi  |  management controller for Unifi APs   |
-| Visual Studio Code   | nice text editor   |
-| zoom.us | best video conferencing I've found   |
-|=====
+| Tool                  | Use Case                                                       |
+|---------------------: | :--------------------------------------------------------------|
+| Adobe Suite           | for design                                                     |
+| ConEmu                | best windows terminal emulator                                 |
+| Discord               | communication tool                                             |
+| Firefox               | best browser                                                   |
+| Google Chrome         | browser                                                        |
+| IntelliJ IDEA         | Large IDE for all development                                  |
+| Kitematic             | for watching docker containers                                 |
+| LastPass              | easiest way to use LastPass                                    |
+| Microsoft OneNote     | for taking notes, knowledge base, etc.                         |
+| Postman               | perform API calls                                              |
+| QMK Toolbox           | Tool for reflashing keyboard firmware                          |
+| RubyMine              | best ruby IDE                                                  |
+| Slack                 | team communication tool. work, kotlin, and gradle communities  |
+| Sonos                 | music streaming app for smart speakers                         |
+| Spotify               | music streaming service                                        |
+| Steam                 | video game platform                                            |
+| Sublime Merge         | git merge tool, used for diffs, staging, and stashes           |
+| Sublime Text          | extremely fast text edit tool                                  |
+| UniFi                 | management controller for Unifi APs                            |
+| Visual Studio Code    | nice text editor                                               |
+| zoom.us               | best video conferencing I've found                             |
+|=====                  |                                                                |
 
 ## CLI Tools
 
 Probably the largest list, this is a list of tools I have installed and use on the command line. 
 
-|Tool | Use Case
-|--------:|:-------|
-| tmux                                      | terminal multiplexer. <br/><br/>If you don't know what this means, and you like power. this is power.   |
-| fd                                        | better `find`   |
-| rg                                        |  better `grep`   |
-| fzf                                       | fuzzy file finder, but more   |
-| fzf-marks                                 |  bookmarks using `fzf`   |
-| zgen                                      | zsh package manager. All things below this are zgen packages |
-| zuxfoucault/colored-man-pages_mod         |  colored man pages   |
-|   zsh-users/zsh-syntax-highlighting       |  syntax highlighting when using zsh   |
-|  zsh-users/zsh-history-substring-search   | substring reverse history search inline | 
-|  zsh-users/zsh-autosuggestions            | auto suggest what you should run|
-|  denysdovhan/spaceship-prompt spaceship   | awesome terminal prompt|
-| wfxr/forgit                               | fzf ♥️ git |
-| MikeDacre/careful_rm                      | overrides rm to make it safer and add ability to trash |
-| hlissner/zsh-autopair                     | auto-close and delete matching delimiters  |
-| Tarrasch/zsh-bd                           | jump back directories. has autocomplete as well |
-| RobSis/zsh-completion-generator           | |
-| b4b4r07/emoji-cli                         ||
-| MichaelAquilina/zsh-emojis                ||
-| urbainvaes/fzf-marks                      | fzf ♥️ bookmarks|
-| mroth/git-prompt-useremail                | notifies which email will be used for git commit |
-| caarlos0/zsh-git-sync                     | sync with upstream fork |
-| packruler/zsh-git-scripts                 | remove merged branches, squash branch |
-| jedahan/ripz                              | alias tips in rust. requires ripgrep |
-|peterhurford/up.zsh                        | cd up an arbitrary number of directories with `up <#>` | 
-|=====
-
+|Tool                                    | Use Case                                                                                                |
+|---------------------------------:      |:-------                                                                                                 |
+| tmux                                   | terminal multiplexer. <br/><br/>If you don't know what this means, and you like power. this is power.   |
+| fd                                     | better `find`                                                                                           |
+| rg                                     | better `grep`                                                                                           |
+| fzf                                    | fuzzy file finder, but more                                                                             |
+| fzf-marks                              | bookmarks using `fzf`                                                                                   |
+| zgen                                   | zsh package manager. All things below this are zgen packages                                            |
+| zuxfoucault/colored-man-pages_mod      | colored man pages                                                                                       |
+| zsh-users/zsh-syntax-highlighting      | syntax highlighting when using zsh                                                                      |
+| zsh-users/zsh-history-substring-search | substring reverse history search inline                                                                 |
+| zsh-users/zsh-autosuggestions          | auto suggest what you should run                                                                        |
+| denysdovhan/spaceship-prompt spaceship | awesome terminal prompt                                                                                 |
+| wfxr/forgit                            | fzf ♥️ git                                                                                              |
+| MikeDacre/careful_rm                   | overrides rm to make it safer and add ability to trash                                                  |
+| hlissner/zsh-autopair                  | auto-close and delete matching delimiters                                                               |
+| Tarrasch/zsh-bd                        | jump back directories. has autocomplete as well                                                         |
+| RobSis/zsh-completion-generator        |                                                                                                         |
+| b4b4r07/emoji-cli                      |                                                                                                         |
+| MichaelAquilina/zsh-emojis             |                                                                                                         |
+| urbainvaes/fzf-marks                   | fzf ♥️ bookmarks                                                                                        |
+| mroth/git-prompt-useremail             | notifies which email will be used for git commit                                                        |
+| caarlos0/zsh-git-sync                  | sync with upstream fork                                                                                 |
+| packruler/zsh-git-scripts              | remove merged branches, squash branch                                                                   |
+| jedahan/ripz                           | alias tips in rust. requires ripgrep                                                                    |
+| peterhurford/up.zsh                    | cd up an arbitrary number of directories with `up <#>`                                                  |
+|=====                                   |                                                                                                         |
 
 # Browser Extensions
 
