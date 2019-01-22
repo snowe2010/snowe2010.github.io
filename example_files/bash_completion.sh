@@ -5,18 +5,15 @@ _main() {
 
   local i=1 cmd
 
+_e "i $i comp_words ${COMP_WORDS[@]}"
   # find the subcommand
   while [[ "$i" -lt "$COMP_CWORD" ]]
   do
     local s="${COMP_WORDS[i]}"
     case "$s" in
-      --*)
-        cmd="$s"
-        break
-        ;;
-      -*)
-        ;;
+      -*) ;;
       *)
+        _e "else"
         cmd="$s"
         break
         ;;
@@ -26,7 +23,8 @@ _main() {
 
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
-    COMPREPLY=($(compgen -W "subcommand" -- "$cur"))
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
     return # return early if we're still completing the 'current' command
   fi
 
@@ -90,36 +88,28 @@ _main_subcommand_fetch ()
   while [[ $i -lt $COMP_CWORD ]]; do
     local s="${COMP_WORDS[i]}"
     case "$s" in
-    --*)
-      cmd="$s"
-      break
-      ;;
-    -*) 
-      ;;
-    subcommand|fetch)
-      # We need to skip all completion commands up until our 'current' one, i.e.
-      # the one we are actually completing right now. 
-      # do nothing because it's still the current command?  
-      ;;
-    *)
-      _e "star, which means we skipped counting.... "
-      cmd="$s"
-      break
-      ;;
+      subcommand|fetch)
+        # We need to skip all completion commands up until our 'current' one, i.e.
+        # the one we are actually completing right now.
+        ;;
+      *)
+        cmd="$s"
+        break
+        ;;
     esac
     (( i++ ))
   done
 
   if [[ $i -eq $COMP_CWORD ]]; then
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "fetch_sub" -- "$cur"))
+    COMPREPLY=($(compgen -W "fetch_sub --version" -- "$cur"))
     return
   fi
 
   # subcommands have their own completion functions
   case "$cmd" in
     fetch_sub) ;;
-      *)       ;;
+    *)         ;;
   esac
 }
 
@@ -168,4 +158,5 @@ __brew_caskcomp ()
 }
 
 
-complete -F _main main
+# complete -F _main main.rb
+complete -o bashdefault -o default -F _main main.rb
