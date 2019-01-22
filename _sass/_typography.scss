@@ -200,7 +200,7 @@ hr {
 }
 
 strong {
-  color: #333;
+  color: --var(--base-lighten-color);
   font-weight: 600;
 }
 
