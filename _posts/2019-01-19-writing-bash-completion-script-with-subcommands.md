@@ -5,7 +5,7 @@ description: ""
 date: 2019-01-19
 tags: [bash, tutorial]
 comments: true
-published: true
+published: false
 ---
 
 Following along from my last post, I'm going to detail how 

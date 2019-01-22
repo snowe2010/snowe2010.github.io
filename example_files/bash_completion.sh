@@ -84,24 +84,21 @@ _main_subcommand ()
 
 _main_subcommand_fetch ()
 {
-  _e "main subcommand"
   local i=1 cmd
 
-  # find the subcommand
-  _e "comp cword $COMP_CWORD"
+  # find the _current_ subcommand (the one we are attempting to tab complete)
   while [[ $i -lt $COMP_CWORD ]]; do
     local s="${COMP_WORDS[i]}"
     case "$s" in
     --*)
-      _e "--"
       cmd="$s"
       break
       ;;
     -*) 
-      _e "-"
       ;;
     subcommand|fetch)
-      _e "fetchdddddd"
+      # We need to skip all completion commands up until our 'current' one, i.e.
+      # the one we are actually completing right now. 
       # do nothing because it's still the current command?  
       ;;
     *)
@@ -115,7 +112,6 @@ _main_subcommand_fetch ()
 
   if [[ $i -eq $COMP_CWORD ]]; then
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    _e "current completion candidate $cur"
     COMPREPLY=($(compgen -W "fetch_sub" -- "$cur"))
     return
   fi
