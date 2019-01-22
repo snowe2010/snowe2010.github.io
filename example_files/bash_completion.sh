@@ -1,10 +1,7 @@
 #!bash
 
-
 _main() {
-  echo "" >> log
-  echo "" >> log
-  echo "" >> log
+  _e "starting completion"
 
   local i=1 cmd
 
@@ -30,9 +27,10 @@ _main() {
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
     COMPREPLY=($(compgen -W "subcommand" -- "$cur"))
-    return
+    return # return early if we're still completing the 'current' command
   fi
 
+  # we've completed the 'current' command and now need to call the next completion function
   # subcommands have their own completion functions
   case "$cmd" in
     subcommand) _main_subcommand ;;
@@ -40,68 +38,93 @@ _main() {
   esac
 }
 
-_e () {
-  echo "$(date) : $1" >> log
+_e () { 
+  echo "$1" >> log 
 }
 
 _main_subcommand ()
 {
-    local i=1 cmd
+  _e "main subcommand"
+  local i=1 cmd
 
-    # find the subcommand
-    _e "main subcommand"
-    _e "comp words $COMP_WORDS"
-    while [[ $i -lt $COMP_CWORD ]]; do
-        local s="${COMP_WORDS[i]}"
-        case "$s" in
-        --*)
-          _e "--"
-          cmd="$s"
-          break
-          ;;
-        -*) 
-          _e "-"
-          ;;
-        subcommand) 
-          _e "subcommand"
-          ;;
-        *)
-          _e "star"
-            cmd="$s"
-            break
-            ;;
-        esac
-        (( i++ ))
-    done
-
-    if [[ $i -eq $COMP_CWORD ]]; then
-      _e "equal"
-      local cur="${COMP_WORDS[COMP_CWORD]}"
-      COMPREPLY=($(compgen -W "create doctor fetch info install list --version" -- "$cur"))
-      return
-    fi
-
-    # subcommands have their own completion functions
-    case "$cmd" in
-      fetch)                  _main_subcommand_fetch ;;
-       *)                      ;;
+  # find the subcommand
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+    --*)
+      cmd="$s"
+      break
+      ;;
+    -*) 
+      ;;
+    subcommand)
+      # do nothing because it's still the current command?  
+      ;;
+    *)
+      cmd="$s"
+      break
+      ;;
     esac
+    (( i++ ))
+  done
+
+  if [[ $i -eq $COMP_CWORD ]]; then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    _e "current completion candidate $cur"
+    COMPREPLY=($(compgen -W "create doctor fetch info install list --version" -- "$cur"))
+    return
+  fi
+
+  # subcommands have their own completion functions
+  case "$cmd" in
+    fetch)                  _main_subcommand_fetch ;;
+      *)                      ;;
+  esac
 }
 
 _main_subcommand_fetch ()
 {
-  _e "fetch"
-  local cur="${COMP_WORDS[COMP_CWORD]}"
-  local prv=$(__brew_caskcomp_prev)
-  _e "cur $cur  previous $prv"
-  case "$cur" in
-  -*)
-      __brew_caskcomp "--force"
-      return
-      ;;
-  esac
-  COMPREPLY=($(compgen -W "fetch_sub1 fetch_sub2" -- "$cur"))
+  _e "main subcommand"
+  local i=1 cmd
 
+  # find the subcommand
+  _e "comp cword $COMP_CWORD"
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+    --*)
+      _e "--"
+      cmd="$s"
+      break
+      ;;
+    -*) 
+      _e "-"
+      ;;
+    subcommand|fetch)
+      _e "fetchdddddd"
+      # do nothing because it's still the current command?  
+      ;;
+    *)
+      _e "star, which means we skipped counting.... "
+      cmd="$s"
+      break
+      ;;
+    esac
+    (( i++ ))
+  done
+
+  if [[ $i -eq $COMP_CWORD ]]; then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    _e "current completion candidate $cur"
+    COMPREPLY=($(compgen -W "fetch_sub" -- "$cur"))
+    return
+  fi
+
+  # subcommands have their own completion functions
+  case "$cmd" in
+    fetch_sub) ;;
+      *)       ;;
+  esac
 }
 
 __brew_caskcomp_words_include ()
@@ -120,12 +143,10 @@ __brew_caskcomp_words_include ()
 # Find the previous non-switch word
 __brew_caskcomp_prev ()
 {
-  _e "caskcomp_pre comp_cword $COMP_CWORD"
   local idx=$((COMP_CWORD - 1))
-  _e "idx $idx"
   local prv="${COMP_WORDS[idx]}"
-  _e "previous $prv"
   while [[ $prv == -* ]]; do
+      _e "i should not enter here with regular testing"
       (( idx-- ))
       prv="${COMP_WORDS[idx]}"
   done
