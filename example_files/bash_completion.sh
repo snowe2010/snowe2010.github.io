@@ -5,7 +5,8 @@ _main() {
 
   local i=1 cmd
 
-_e "i $i comp_words ${COMP_WORDS[@]}"
+  _e "i:$i cword=[$COMP_CWORD] comp_words=[${COMP_WORDS[*]}]"
+  
   # find the subcommand
   while [[ "$i" -lt "$COMP_CWORD" ]]
   do
@@ -20,10 +21,12 @@ _e "i $i comp_words ${COMP_WORDS[@]}"
     esac
     (( i++ ))
   done
+  cmd="${COMP_WORDS[COMP_CWORD]}"
 
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
     local cur="${COMP_WORDS[COMP_CWORD]}"
+    _e "crrr $cur"
     COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
     return # return early if we're still completing the 'current' command
   fi

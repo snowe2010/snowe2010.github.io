@@ -16,7 +16,7 @@ to reverse engineer how bash subcommand completion should be
 written and I've detailed it here. Hopefully this is helpful to 
 somebody!
 
-# The application
+## The application
 
 We're going to use the same application as last time. 
 
@@ -68,7 +68,7 @@ Options:
 command under subcommand2
 ```
 
-# A regular bash completion script
+## A regular bash completion script
 
 Here is an example script from [tldp.org](https://www.tldp.org/LDP/abs/html/tabexpansion.html)
 
@@ -97,28 +97,22 @@ looked into writing bash completion scripts and you understand the basic premise
 populating the `COMPREPLY` array with a list of words using `compgen -W`. There 
 are many different ways you can call `compgen`, but thankfully we should only need the `-W` flag.
 
-# Writing a subcommand completion script
+## Writing a subcommand completion script
 
-## Generic layout
+### Generic layout
 
 Let's start with the 'generic' layout 
 
 ```bash
-
 _main() {
-  local i=1 cmd
+  local i=1 cmd 
 
   # find the subcommand
   while [[ "$i" -lt "$COMP_CWORD" ]]
   do
     local s="${COMP_WORDS[i]}"
     case "$s" in
-      --*)
-        cmd="$s"
-        break
-        ;;
-      -*)
-        ;;
+      -*) ;;
       *)
         cmd="$s"
         break
@@ -129,14 +123,16 @@ _main() {
 
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
-    COMPREPLY=($(compgen -W "cask" -- "$cur"))
-    return
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
+    return # return early if we're still completing the 'current' command
   fi
 
+  # we've completed the 'current' command and now need to call the next completion function
   # subcommands have their own completion functions
   case "$cmd" in
-    cask)                       _main_subcommand ;;
-    *)                          ;;
+    subcommand) _main_subcommand ;;
+    *)          ;;
   esac
 }
 
@@ -146,25 +142,145 @@ complete -F _main main
 Wait a minute. This doesn't look anything like the first script. Ok yeah, 
 the layout for a subcommand is gonna be entirely different. 
 
-##### Reply with subcommands: 
+----------------
 
-If no subcommand has been typed yet then you set the COMPREPLY array to your list of _current subcommands_ and immediately return. Since no subcommands have been typed yet, 
-you only want the completion replying with the current subcommand list. 
+### Returning completions
 
-That is this part:
+Let's shrink that down to understandable chunks and build upon it.
+
 ```bash
-if [[ "$i" -eq "$COMP_CWORD" ]]
-then
-    COMPREPLY=($(compgen -W "subcommand" -- "$cur"))
-    return
-fi
+_main() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"  #|1|
+  COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur")) #|2|
+}
 ```
 
-##### Parse current context and call corresponding functions: 
+1. Set our `$cur` variable to the current word. In this case it will always be `main`.
+2. Set the `COMPREPLY` variable to an array of `plain subcommand ... etc` _for the command $cur_
 
-If a command has begun to be typed (that's the `while [[ "$i" -lt "$COMP_CWORD" ]]` part)
-then check if it's a flag or a subcommand. If it's a subcommand then set the `cmd` variable
-and continue to: 
+    This allows the completion engine to detect _when_ it can use the `COMPREPLY` completions list. 
+    If you don't specify `$cur` at the end here, then your completions _will not work_. This was a 
+    huge hanging point for me, because you need to set it to the correct `$cur` at all times. 
+
+So far so good. We just check if we're on the `main` command and then return the list of completions.
+
+**lesson: for all completions, return a list of words using `compgen`**
+
+--------------
+
+### exit early
+
+Now let's check where we are in the array. If we've succeeded at completing a command we then need to do something with it. 
+
+```bash
+_main() {
+  local i=1 #|1|
+
+  if [[ "$i" -eq "$COMP_CWORD" ]] #|2|
+  then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
+    return #|3|
+  fi
+
+  #|4|
+  case "${COMP_WORDS[COMP_CWORD]}" in
+    subcommand) _main_subcommand ;;
+    *)          ;;
+  esac
+}
+
+complete -F _main main
+```
+
+1. Set a variable to 1, the position of `main` _always_ in `COMP_WORDS`
+2. Check if we are completing the first command `main`
+3. If we are still completing `main` (but why would we still be completing main you might ask? wait and see) then just return early
+4. If we aren't still completing `main`, then we must be on to a subcommand! Go ahead and do stuff here, like calling more completion functions. 
+
+**lesson: exit early to avoid performing completions for subcommands**
+
+--------------
+
+### find your subcommand
+
+**This isn't going to work though!** Why? Well what if you have flags or options on `main`? Then when you try to complete them `main --class-opt`, 
+it's going to think you're now past the first subcommand and on to the second and it won't complete any of the other valid subcommands for this
+layer, `plain subcommand subcommand2 help` or even the other option `-h`! For example, this will complete properly,
+
+
+```bash
+$ main <TAB><TAB>
+--class-opt  -h           help         plain        subcommand   subcommand2
+```
+
+but this won't! 
+
+```bash
+$ main --class-opt <TAB><TAB>
+# no completions 😭
+```
+
+**Solution**: Iterate over the current `COMP_WORDS` array until you find a subcommand. 
+
+```bash
+_main() {
+  local i=1 cmd #|1||2|
+
+  while [[ "$i" -lt "$COMP_CWORD" ]] #|3|
+  do
+    local s="${COMP_WORDS[i]}" #|4|
+    case "$s" in
+      -*) ;; #|5|
+      *)
+        cmd="$s" #|6|
+        break
+        ;;
+    esac
+    (( i++ ))  #|7|
+  done
+
+  if [[ "$i" -eq "$COMP_CWORD" ]]
+  then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
+    return 
+  fi
+
+  case "$cmd" in
+    subcommand) _main_subcommand ;;
+    *)          ;;
+  esac
+}
+
+complete -F _main main
+```
+
+1. `$i` is now a counter variable starting at 1. 
+
+    That's what the `COMP_CWORD` counter will start at, so if we have typed `main<space>` 
+    then the counter will be `1`. And if we have typed `main subcommand` then the counter will be `2`
+
+2. Create a `cmd` variable to hold the currently completed subcommand. 
+3. Check the index against the `COMP_CWORD` variable and only find a subcommand if we're currently completing a subcommand.
+
+    This is the key to checking for subcommands. This code will only run when you have initiated a completion after the `main` command. 
+    `main<TAB><TAB>` will result in `while [[ "1" -lt "1" ]]` whereas `main <TAB><TAB>` will result in `while [[ "1" -lt "2" ]]` at this spot
+
+4. We grab the 'currently iterated word' from the array and set it to a var
+5. If our 'current' word _starts with `-`_ **then it is not a subcommand**
+6. If it doesn't start with a `-` then we know we are completing a subcommand. We just set `cmd` to the current spot in `COMP_WORDS` and break out of the loop. 
+7. If we're not to the current subcommand then we iterate and continue.  
+
+**lesson: iterate over `COMP_WORDS` array to check and set the current subcommand**
+
+-------------
+
+### Adding in nested subcommands
+
+After all that, we're finally getting to the _nested_ part of it. Sheesh, this is a lot of work to read nested subcommands. 
+
+Let's take the bottom part here. Now you can probably see that we are only completing 
 
 ```bash
   case "$cmd" in
@@ -173,15 +289,7 @@ and continue to:
   esac
 ```
 
-Note that the original block `if [[ "$i" -eq "$COMP_CWORD" ]]` won't be hit since `$i` is 
-currently _less than_ `COMP_CWORD`. 
-{: .note }
-
-If our completion word matches in this statement then the corresponding function will be called. 
-Else the function will continue on (and end) and will repeat when the user presses `<TAB><TAB>` again.
-
-##### Call into subcommand functions:
-
+Looking back 
 
 
 
