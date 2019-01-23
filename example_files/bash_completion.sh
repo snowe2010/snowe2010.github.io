@@ -21,7 +21,6 @@ _main() {
     esac
     (( i++ ))
   done
-  cmd="${COMP_WORDS[COMP_CWORD]}"
 
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
@@ -34,7 +33,9 @@ _main() {
   # we've completed the 'current' command and now need to call the next completion function
   # subcommands have their own completion functions
   case "$cmd" in
+    plain) _main_plain ;;
     subcommand) _main_subcommand ;;
+    subcommand2) _main_subcommand2 ;;
     *)          ;;
   esac
 }
@@ -42,6 +43,35 @@ _main() {
 _e () { 
   echo "$1" >> log 
 }
+
+_main_plain ()
+{  
+  _e "plain"
+  local i=1 cmd
+
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+      -*) _e "starts with";;
+      plain)
+        # We need to skip all completion commands up until our 'current' one, i.e.
+        # the one we are actually completing right now.
+        ;;
+      *)
+        # cmd="$s"
+        break
+        ;;
+    esac
+    (( i++ ))
+  done
+
+  if [[ $i -eq $COMP_CWORD ]]; then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur"))
+    return
+  fi
+}
+
 
 _main_subcommand ()
 {
@@ -52,15 +82,8 @@ _main_subcommand ()
   while [[ $i -lt $COMP_CWORD ]]; do
     local s="${COMP_WORDS[i]}"
     case "$s" in
-    --*)
-      cmd="$s"
-      break
-      ;;
-    -*) 
-      ;;
-    subcommand)
-      # do nothing because it's still the current command?  
-      ;;
+    -*) ;;
+    subcommand) ;;
     *)
       cmd="$s"
       break
