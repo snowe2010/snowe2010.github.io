@@ -6,7 +6,7 @@ function setDark() {
   root.style.setProperty('--background-color', 'var(--so-base03)');
   root.style.setProperty('--background-over-color', 'var(--so-base02)');
   root.style.setProperty('--text-color', 'var(--so-base0)');
-  root.style.setProperty('--link-color', 'var(--so-base1)');
+  root.style.setProperty('--link-color', 'var(--so-violet)');
   root.style.setProperty('--code-color', 'var(--so-base0)');
   root.style.setProperty('--code-background-color', 'var(--so-base02)');
   root.style.setProperty('--table-border-color', 'var(--so-base01)');
@@ -22,7 +22,7 @@ function setLight() {
   root.style.setProperty('--background-color', 'var(--so-base3)');
   root.style.setProperty('--background-over-color', 'var(--so-base2)');
   root.style.setProperty('--text-color', 'var(--so-base00)');
-  root.style.setProperty('--link-color', 'var(--so-base01)');
+  root.style.setProperty('--link-color', 'var(--so-violet)');
   root.style.setProperty('--code-color', 'var(--so-base02)');
   root.style.setProperty('--code-background-color', 'var(--so-base2)');
   root.style.setProperty('--table-border-color', 'var(--so-base1)');
