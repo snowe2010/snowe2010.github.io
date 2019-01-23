@@ -16,7 +16,7 @@ to reverse engineer how bash subcommand completion should be
 written and I've detailed it here. Hopefully this is helpful to 
 somebody!
 
-## The application
+## the application
 
 We're going to use the same application as last time. 
 
@@ -68,7 +68,7 @@ Options:
 command under subcommand2
 ```
 
-## A regular bash completion script
+## a regular bash completion script
 
 Here is an example script from [tldp.org](https://www.tldp.org/LDP/abs/html/tabexpansion.html)
 
@@ -97,9 +97,9 @@ looked into writing bash completion scripts and you understand the basic premise
 populating the `COMPREPLY` array with a list of words using `compgen -W`. There 
 are many different ways you can call `compgen`, but thankfully we should only need the `-W` flag.
 
-## Writing a subcommand completion script
+## writing a subcommand completion script
 
-### Generic layout
+### generic layout
 
 Let's start with the 'generic' layout 
 
@@ -144,7 +144,7 @@ the layout for a subcommand is gonna be entirely different.
 
 ----------------
 
-### Returning completions
+### returning completions
 
 Let's shrink that down to understandable chunks and build upon it.
 
@@ -185,7 +185,6 @@ _main() {
 
   #|4|
   case "${COMP_WORDS[COMP_CWORD]}" in
-    subcommand) _main_subcommand ;;
     *)          ;;
   esac
 }
@@ -248,7 +247,6 @@ _main() {
   fi
 
   case "$cmd" in
-    subcommand) _main_subcommand ;;
     *)          ;;
   esac
 }
@@ -276,23 +274,117 @@ complete -F _main main
 
 -------------
 
-### Adding in nested subcommands
+### adding in nested subcommands
 
 After all that, we're finally getting to the _nested_ part of it. Sheesh, this is a lot of work to read nested subcommands. 
 
-Let's take the bottom part here. Now you can probably see that we are only completing 
+Let's take the bottom part here. Nothing is currently happening here, so let's update it. 
 
 ```bash
   case "$cmd" in
-    _subcommand) _main_subcommand ;;
+    plain) _main_plain ;;
+    subcommand) _main_subcommand ;;
+    subcommand2) _main_subcommand2 ;;
     *)           ;;
   esac
 ```
+Easy enough. Call functions for the 3 main subcommands, and don't call anything for anything else. 
+`--class-opt` doesn't accept files or anything like that, so we don't need to add file completion in,
+but if we did need that then you would need to find a way to either: 
 
-Looking back 
+1. perform the completion in the `while` block, when hitting `-*)` cases, or
+2. mark `-*)` as subcommands, and perform the logic in this `case` block, making sure that you still allow completing the other top level commands. 
 
+**lesson: call subcommand functions from `case` statement _after_ completing top level commands**
 
+-------------
 
+### subcommand functions
 
+Let's add in those subcommand functions now. 
 
+We'll start with the `plain` subcommand, as that's the easiest. 
+
+```bash
+_main_plain ()
+{  
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur")) #|1|
+}
+```
+
+1. Let's start by returning just the completions, with no other logic. 
+  `$cur` will always be the current word at this point (do you see the issue yet?)
+
+```
+$ main plain --<TAB><TAB>
+--class-opt  --opt1
+```
+
+Cool, this subcommand completion works. 
+
+```
+$ main plain --class-opt --<TAB><TAB>
+--class-opt  --opt1
+```
+
+Hm. seems that since we are 'dead-ending' at this function every time, we will always get
+these completions. This is the first step to understanding why subcommands are so hard. 
+
+**lesson: _always_ keep track of the current and previous subcommand.**
+
+--------------
+
+### keeping track of current and previous words 
+
+```bash
+_main_plain ()
+{  
+  #|1|
+  local i=1
+
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+      -*) ;;
+      plain) ;; #|2|
+      *)
+        # cmd="$s" #|3|
+        break
+        ;;
+    esac
+    (( i++ ))
+  done
+
+  if [[ $i -eq $COMP_CWORD ]]; then
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur")) #|4|
+    return
+  fi
+}
+```
+
+I've done the entire function in once since we've covered most of this already. 
+
+1. Using the same structure as before
+2. We need to skip all completion commands up until our 'current' one, i.e. the one we are actually completing right now.
+
+    This involves skipping all `COMP_WORDS` up to our subcommand, and then once we've gotten to the proper subcommand we can continue. 
+    Notice that `-*)` and `plain)` are the first things in the `case` statement. We don't want anything else being hit first, as we're just searching for 
+    the current subcommand. 
+
+    This of course will not work for subcommands like this `main plain plain`, because you'll never make it to the second `plain`. I have
+    no reason to solve this problem right now though, so I'll leave it to the reader. 
+
+3. We no longer need subcommands (in this function) so no need for the `cmd` variable
+4. Complete your options normally! Note that you _must_ use this `if` statement, else you'll encounter the problem above! The if statement only
+    continues completions if we're one spot after `plain`, instead of two or three spots later
+
+**lesson: only complete after reaching your current subcommand**
+
+----------------
+
+### subcommand with nested functions
+
+Applying all that we've learned above we should now be able to make the last two subcommand functions pretty easily. 
 
