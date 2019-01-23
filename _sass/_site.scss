@@ -32,8 +32,10 @@ body {
   Header
   -------------- */
 .header {
+  font-family: $header-font;
   padding: 2%;
   margin-bottom: 1.5em;
+  text-transform: lowercase;
 
   &-title {
     margin: 0.3em 0;
@@ -74,14 +76,15 @@ body {
 }
 
 .header-small {
+  font-family: $header-font;
   text-align: left;
   margin-bottom: .75rem;
-  font-size: .75rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
 
   a {
-    color: var(--base-color);
+    color: var(--table-border-color);
 
     &:hover,
     &:focus {
@@ -101,6 +104,7 @@ body {
     font-size: 2.25em;
     line-height: 1.2em;
     font-weight: 600;
+    font-family: $header-font;
   }
 }
 
@@ -113,16 +117,18 @@ body {
   &-title {
     margin-top: 0rem;
     margin-bottom: 0.3rem;
-    font-size: 2.25em;
+    font-size: 2.55em;
     line-height: 1.2em;
-    font-weight: 600;
+    font-weight: 700;
+    font-family: $h-font;
+    text-transform: lowercase;
   }
 
   &-date {
     margin-bottom: .5rem;
     color: var(--link-color);
     font-size: .75rem;
-    text-transform: uppercase;
+    text-transform: lowercase;
   }
 
    &-tag {
@@ -201,17 +207,19 @@ body {
     }
 
     &-title {
+      font-family: $header-font;
       margin-bottom: .3rem;
       font-size : 1.8rem;
       font-weight: 600;
+      text-transform: lowercase;
     }
-
+    
     &-date {
       color: var(--base-lighten-color);
       font-size: .8rem;
-      text-transform: uppercase;
+      text-transform: lowercase;
     }
-
+    
     &-desc {
       color: var(--base-color);
       margin-bottom: .25rem;
@@ -379,6 +387,14 @@ body {
     a {
       color: var(--base-color);
       margin: 4px;
+    }
+  }
+}
+
+.icon {
+  svg {
+    path {
+      fill: var(--base-color);
     }
   }
 }
