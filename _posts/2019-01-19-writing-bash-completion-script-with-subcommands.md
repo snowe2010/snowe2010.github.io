@@ -31,7 +31,8 @@ Commands:
 
 Options:
   [--class-opt=CLASS_OPT]  # a global option
-
+```
+```
 $ ruby .\main.rb help plain
 Usage:
   main.rb plain
@@ -41,23 +42,27 @@ Options:
       [--class-opt=CLASS_OPT]  # a global option
 
 This is a plain command
-
+```
+```
 $ ruby .\main.rb help subcommand
 Commands:
   main.rb subcommand help [COMMAND]  # Describe subcommands or one specific s...
   main.rb subcommand plain           # command under subcommand
-
+```
+```
 $ ruby .\main.rb subcommand2 -h
 Commands:
   main.rb subcommand2 help [COMMAND]  # Describe subcommands or one specific ...
   main.rb subcommand2 plain           # command under subcommand2
-
+```
+```
 $ ruby .\main.rb subcommand plain -h
 Usage:
   main.rb subcommand plain
 
 command under subcommand
-
+```
+```
 $ ruby .\main.rb subcommand2 plain -h
 Usage:
   main.rb subcommand2 plain

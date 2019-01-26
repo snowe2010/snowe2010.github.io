@@ -11,6 +11,7 @@ _main() {
   while [[ "$i" -lt "$COMP_CWORD" ]]
   do
     local s="${COMP_WORDS[i]}"
+    _e "s is $s"
     case "$s" in
       -*) ;;
       *)
@@ -46,30 +47,14 @@ _e () {
 
 _main_plain ()
 {  
-  _e "plain"
-  local i=1 cmd
-
-  while [[ $i -lt $COMP_CWORD ]]; do
-    local s="${COMP_WORDS[i]}"
-    case "$s" in
-      -*) _e "starts with";;
-      plain)
-        # We need to skip all completion commands up until our 'current' one, i.e.
-        # the one we are actually completing right now.
-        ;;
-      *)
-        # cmd="$s"
-        break
-        ;;
-    esac
-    (( i++ ))
-  done
-
-  if [[ $i -eq $COMP_CWORD ]]; then
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur"))
-    return
-  fi
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  case "$cur" in
+    -*) 
+      COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur"))
+      return 
+      ;;
+  esac
+  COMPREPLY=""
 }
 
 
@@ -85,6 +70,7 @@ _main_subcommand ()
     -*) ;;
     subcommand) ;;
     *)
+      _e "cmd is $s"
       cmd="$s"
       break
       ;;
@@ -95,94 +81,73 @@ _main_subcommand ()
   if [[ $i -eq $COMP_CWORD ]]; then
     local cur="${COMP_WORDS[COMP_CWORD]}"
     _e "current completion candidate $cur"
-    COMPREPLY=($(compgen -W "create doctor fetch info install list --version" -- "$cur"))
+    COMPREPLY=($(compgen -W "plain help" -- "$cur"))
     return
   fi
 
   # subcommands have their own completion functions
   case "$cmd" in
-    fetch)                  _main_subcommand_fetch ;;
-      *)                      ;;
+    plain) _main_subcommand_plain ;;
+        *) ;;
   esac
 }
 
-_main_subcommand_fetch ()
+_main_subcommand_plain ()
 {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  case "$cur" in
+    -*) 
+      COMPREPLY=($(compgen -W "-h --help help" -- "$cur"))
+      return 
+      ;;
+  esac
+  COMPREPLY=""
+}
+
+_main_subcommand2 ()
+{
+  _e "main subcommand2"
   local i=1 cmd
 
-  # find the _current_ subcommand (the one we are attempting to tab complete)
+  # find the subcommand
   while [[ $i -lt $COMP_CWORD ]]; do
     local s="${COMP_WORDS[i]}"
     case "$s" in
-      subcommand|fetch)
-        # We need to skip all completion commands up until our 'current' one, i.e.
-        # the one we are actually completing right now.
-        ;;
-      *)
-        cmd="$s"
-        break
-        ;;
+    # -*) ;;
+    subcommand2) ;;
+    *)
+      cmd="$s"
+      break
+      ;;
     esac
     (( i++ ))
   done
 
   if [[ $i -eq $COMP_CWORD ]]; then
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "fetch_sub --version" -- "$cur"))
+    _e "current completion candidate $cur"
+    COMPREPLY=($(compgen -W "plain help --testing" -- "$cur"))
     return
   fi
 
   # subcommands have their own completion functions
   case "$cmd" in
-    fetch_sub) ;;
-    *)         ;;
+    plain) _main_subcommand2_plain ;;
+        *) COMPREPLY="";;
   esac
 }
 
-__brew_caskcomp_words_include ()
+_main_subcommand2_plain ()
 {
-    local i=1
-    while [[ $i -lt $COMP_CWORD ]]; do
-      _e "COMP_WORDS[i] ${COMP_WORDS[i]} || $1"
-        if [[ "${COMP_WORDS[i]}" = "$1" ]]; then
-            return 0
-        fi
-        (( i++ ))
-    done
-    return 1
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  case "$cur" in
+    -*) 
+      COMPREPLY=($(compgen -W "--opt1 -h --help help" -- "$cur"))
+      return 
+      ;;
+  esac
+  COMPREPLY=""
 }
-
-# Find the previous non-switch word
-__brew_caskcomp_prev ()
-{
-  local idx=$((COMP_CWORD - 1))
-  local prv="${COMP_WORDS[idx]}"
-  while [[ $prv == -* ]]; do
-      _e "i should not enter here with regular testing"
-      (( idx-- ))
-      prv="${COMP_WORDS[idx]}"
-  done
-  echo "$prv"
-}
-
-__brew_caskcomp ()
-{
-    # break $1 on space, tab, and newline characters,
-    # and turn it into a newline separated list of words
-    local list s sep=$'\n' IFS=$' \t\n'
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-
-    for s in $1; do
-        _e "here s= $s   1= $1 "
-        __brew_caskcomp_words_include "$s" && continue
-        list="$list$s$sep"
-        _e "current list $list"
-    done
-
-    IFS="$sep"
-    COMPREPLY=($(compgen -W "$list" -- "$cur"))
-}
-
 
 # complete -F _main main.rb
 complete -o bashdefault -o default -F _main main.rb
