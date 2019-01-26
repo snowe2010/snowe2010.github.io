@@ -5,7 +5,7 @@ description: ""
 date: 2019-01-19
 tags: [bash, tutorial]
 comments: true
-published: false
+published: true
 ---
 
 Following along from my last post, I'm going to detail how 
@@ -31,7 +31,8 @@ Commands:
 
 Options:
   [--class-opt=CLASS_OPT]  # a global option
-
+```
+```
 $ ruby .\main.rb help plain
 Usage:
   main.rb plain
@@ -41,23 +42,27 @@ Options:
       [--class-opt=CLASS_OPT]  # a global option
 
 This is a plain command
-
+```
+```
 $ ruby .\main.rb help subcommand
 Commands:
   main.rb subcommand help [COMMAND]  # Describe subcommands or one specific s...
   main.rb subcommand plain           # command under subcommand
-
+```
+```
 $ ruby .\main.rb subcommand2 -h
 Commands:
   main.rb subcommand2 help [COMMAND]  # Describe subcommands or one specific ...
   main.rb subcommand2 plain           # command under subcommand2
-
+```
+```
 $ ruby .\main.rb subcommand plain -h
 Usage:
   main.rb subcommand plain
 
 command under subcommand
-
+```
+```
 $ ruby .\main.rb subcommand2 plain -h
 Usage:
   main.rb subcommand2 plain
@@ -67,6 +72,16 @@ Options:
 
 command under subcommand2
 ```
+
+To make things easier, you should add a logging function that you can then `tail -f`. You will 
+then be able to see your completions properly, but also debug. 
+{: .note}
+```bash
+_e() { 
+  echo "$1" >> log 
+}
+``` 
+{: .note}
 
 ## a regular bash completion script
 
@@ -105,9 +120,8 @@ Let's start with the 'generic' layout
 
 ```bash
 _main() {
-  local i=1 cmd 
+  local i=1 cmd
 
-  # find the subcommand
   while [[ "$i" -lt "$COMP_CWORD" ]]
   do
     local s="${COMP_WORDS[i]}"
@@ -124,14 +138,14 @@ _main() {
   if [[ "$i" -eq "$COMP_CWORD" ]]
   then
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h help" -- "$cur"))
-    return # return early if we're still completing the 'current' command
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h --help help" -- "$cur"))
+    return 
   fi
 
-  # we've completed the 'current' command and now need to call the next completion function
-  # subcommands have their own completion functions
   case "$cmd" in
+    plain) _main_plain ;;
     subcommand) _main_subcommand ;;
+    subcommand2) _main_subcommand2 ;;
     *)          ;;
   esac
 }
@@ -142,7 +156,7 @@ complete -F _main main
 Wait a minute. This doesn't look anything like the first script. Ok yeah, 
 the layout for a subcommand is gonna be entirely different. 
 
-----------------
+---
 
 ### returning completions
 
@@ -166,7 +180,7 @@ So far so good. We just check if we're on the `main` command and then return the
 
 **lesson: for all completions, return a list of words using `compgen`**
 
---------------
+---
 
 ### exit early
 
@@ -199,7 +213,7 @@ complete -F _main main
 
 **lesson: exit early to avoid performing completions for subcommands**
 
---------------
+---
 
 ### find your subcommand
 
@@ -272,7 +286,7 @@ complete -F _main main
 
 **lesson: iterate over `COMP_WORDS` array to check and set the current subcommand**
 
--------------
+---
 
 ### adding in nested subcommands
 
@@ -297,94 +311,241 @@ but if we did need that then you would need to find a way to either:
 
 **lesson: call subcommand functions from `case` statement _after_ completing top level commands**
 
--------------
+---
 
 ### subcommand functions
 
-Let's add in those subcommand functions now. 
+Let's add in those subcommand functions now. I'm going to skip the 'steps' in this section, because they were a lot of trial and error to figure out.
 
-We'll start with the `plain` subcommand, as that's the easiest. 
+```bash
+_main_subcommand ()
+{
+  local i=1 subcommand_index #|1|
+
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+    subcommand) #|2|
+      subcommand_index=$i
+      break
+      ;;
+    esac
+    (( i++ ))
+  done
+
+  #|3|
+  while [[ $subcommand_index -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[subcommand_index]}"
+    case "$s" in
+      plain)
+        _main_subcommand_plain 
+        return
+        ;;
+      help) 
+        COMPREPLY=""
+        return
+        ;;
+    esac
+    (( subcommand_index++ ))
+  done
+
+  #|4|
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "plain help" -- "$cur"))
+}
+```
+
+1. We've added a new `subcommand_index` parameter which will be used to hold the index of the current subcommand
+2. We find the 'current' subcommand and set the above index to that index
+3. Using that index, we iterate over the rest of the `COMP_CWORD`s array and if there is a subcommand we want to 
+  pay attention to, we can now set the completions for those subcommands
+4. The only way we make it here is if we didn't match a subcommand, which means we're still completing for the 
+_current_ subcommand, so just repeat the completions. 
+
+**lesson: find your current subcommand and then complete with the remaining options**
+
+---
+
+Finally the easiest part of this all. Finishing off the completions. 
 
 ```bash
 _main_plain ()
 {  
   local cur="${COMP_WORDS[COMP_CWORD]}"
-  COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur")) #|1|
+  COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur"))
 }
 ```
 
-1. Let's start by returning just the completions, with no other logic. 
-  `$cur` will always be the current word at this point (do you see the issue yet?)
+This can be used to 'finish' off all completions. So if you have a chain `main.rb --class-opt subcommand plain`, this style would be
+used right at the end. It will result in the `--opt` and `--class-opt` flags showing as completions every time. If you don't want that
+you could either keep an array of words and subtract 'used' flags from the array and only complete the non-used ones, or you could 
+only complete if the flag starts with `-`. There are many options from here. 
 
-```
-$ main plain --<TAB><TAB>
---class-opt  --opt1
-```
+**lesson: just regular completions at the end**
 
-Cool, this subcommand completion works. 
+---
 
-```
-$ main plain --class-opt --<TAB><TAB>
---class-opt  --opt1
-```
+### everything we've learned
 
-Hm. seems that since we are 'dead-ending' at this function every time, we will always get
-these completions. This is the first step to understanding why subcommands are so hard. 
+#### lessons
 
-**lesson: _always_ keep track of the current and previous subcommand.**
+* **for all completions, return a list of words using `compgen`**
+* **exit early to avoid performing completions for subcommands**
+* **iterate over `COMP_WORDS` array to check and set the current subcommand**
+* **call subcommand functions from `case` statement _after_ completing top level commands**
+* **find your current subcommand and then complete with the remaining options**
+* **just regular completions at the end**
 
---------------
+#### final script 
 
-### keeping track of current and previous words 
+Using everything we've learned we should now be able to create an entire subcommand completion script. Here is my script duplicating 
+the help text from above. 
+
 
 ```bash
-_main_plain ()
-{  
-  #|1|
-  local i=1
+#!bash
 
-  while [[ $i -lt $COMP_CWORD ]]; do
+# helper logging method
+_e() { echo "$1" >> log; }
+
+_main() {
+  local i=1 cmd
+
+  # find the subcommand
+  while [[ "$i" -lt "$COMP_CWORD" ]]
+  do
     local s="${COMP_WORDS[i]}"
     case "$s" in
       -*) ;;
-      plain) ;; #|2|
       *)
-        # cmd="$s" #|3|
+        cmd="$s"
         break
         ;;
     esac
     (( i++ ))
   done
 
-  if [[ $i -eq $COMP_CWORD ]]; then
+  if [[ "$i" -eq "$COMP_CWORD" ]]
+  then
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "--opt1 --class-opt" -- "$cur")) #|4|
-    return
+    COMPREPLY=($(compgen -W "plain subcommand subcommand2 --class-opt -h --help help" -- "$cur"))
+    return # return early if we're still completing the 'current' command
   fi
+
+  # we've completed the 'current' command and now need to call the next completion function
+  # subcommands have their own completion functions
+  case "$cmd" in
+    plain) _main_plain ;;
+    subcommand) _main_subcommand ;;
+    subcommand2) _main_subcommand2 ;;
+    *)          ;;
+  esac
 }
+
+_main_plain ()
+{  
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "--opt1 --class-opt -h --help help" -- "$cur"))
+}
+
+
+_main_subcommand ()
+{
+  local i=1 subcommand_index
+
+  # find the subcommand
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+    subcommand)
+      subcommand_index=$i
+      break
+      ;;
+    esac
+    (( i++ ))
+  done
+
+  while [[ $subcommand_index -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[subcommand_index]}"
+    case "$s" in
+      plain)
+        _main_subcommand_plain 
+        return
+        ;;
+      help) 
+        COMPREPLY=""
+        return
+        ;;
+    esac
+    (( subcommand_index++ ))
+  done
+
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "plain -h --help help" -- "$cur"))
+}
+
+_main_subcommand_plain ()
+{
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=()
+}
+
+_main_subcommand2 ()
+{
+  local i=1 subcommand_index
+
+  while [[ $i -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[i]}"
+    case "$s" in
+    subcommand2)
+      subcommand_index=$i
+      break
+      ;;
+    esac
+    (( i++ ))
+  done
+
+  while [[ $subcommand_index -lt $COMP_CWORD ]]; do
+    local s="${COMP_WORDS[subcommand_index]}"
+    case "$s" in
+      plain)
+        _main_subcommand2_plain 
+        return
+        ;;
+      help) 
+        COMPREPLY=""
+        return
+        ;;
+    esac
+    (( subcommand_index++ ))
+  done
+
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "plain help" -- "$cur"))
+}
+
+_main_subcommand2_plain ()
+{
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=($(compgen -W "--opt1 -h --help help" -- "$cur"))       
+}
+
+# complete -F _main main.rb
+complete -o bashdefault -F _main main.rb
 ```
 
-I've done the entire function in once since we've covered most of this already. 
+---
 
-1. Using the same structure as before
-2. We need to skip all completion commands up until our 'current' one, i.e. the one we are actually completing right now.
+### some notes
 
-    This involves skipping all `COMP_WORDS` up to our subcommand, and then once we've gotten to the proper subcommand we can continue. 
-    Notice that `-*)` and `plain)` are the first things in the `case` statement. We don't want anything else being hit first, as we're just searching for 
-    the current subcommand. 
+---
 
-    This of course will not work for subcommands like this `main plain plain`, because you'll never make it to the second `plain`. I have
-    no reason to solve this problem right now though, so I'll leave it to the reader. 
+```bash
+COMPREPLY=()
+```
 
-3. We no longer need subcommands (in this function) so no need for the `cmd` variable
-4. Complete your options normally! Note that you _must_ use this `if` statement, else you'll encounter the problem above! The if statement only
-    continues completions if we're one spot after `plain`, instead of two or three spots later
+by default will complete nothing. If you enable `compopt -o default` then `COMPREPLY=()` will begin to autocomplete file names. You
+probably only want to use this if your _current_ option/flag/subcommand accepts filenames as a parameter. 
 
-**lesson: only complete after reaching your current subcommand**
-
-----------------
-
-### subcommand with nested functions
-
-Applying all that we've learned above we should now be able to make the last two subcommand functions pretty easily. 
-
+If you want to have `compopt -o default` enabled 100% of the time, then you can instead pass it as a flag to `complete`, and then 
+instead use `COMPREPLY=""`, but this will result in weird empty spaces getting completed. I don't recommend this. 
