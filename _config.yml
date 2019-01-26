@@ -56,15 +56,15 @@ kramdown:
 
 # Navigation
 nav:
-  - name:           "About"
+  - name:           "about"
     url:            "/about"
   - name:           "setup"
     url:            "/setup"
-  - name:           "Archive"
+  - name:           "archive"
     url:            "/archive"
-  - name:           "Tags"
+  - name:           "tags"
     url:            "/tags"
-  - name:           "Github"
+  - name:           "github"
     url:            "https://github.com/snowe2010/"
 # Sass
 sass:
