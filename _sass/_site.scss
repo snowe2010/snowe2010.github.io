@@ -362,7 +362,8 @@ body {
 }
 .note {
   margin-left: 40px;
-  border-left: var(--oc-violet-6 solid);
+  margin-bottom: 0;
+  border-left: var(--oc-violet-6) solid;
   padding-left: 20px;
 }
 
