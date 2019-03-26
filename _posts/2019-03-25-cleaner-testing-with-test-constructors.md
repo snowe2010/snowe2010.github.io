@@ -39,4 +39,24 @@ articles, but that is only a solution for one case as I'll talk about later)
 
 ### create test data in each test
 
-The problem with the first solution is obvious, 
+The problem with the first solution is obvious, using the object above, to 
+test anything you not only need to come up with data for each test, but you 
+must instantiate every single nested item as well. And you might need to do
+this hundreds or thousands of times, depending on the size of your test suite. 
+
+The problem with the second solution is not so obvious. We started out using 
+test factories PromonTech and within a year were in agony over the absolute
+terribleness of the solution. 
+
+* They are not flexible. If you need to pass different data for a specific 
+test, well, too bad. 
+* They cascade test failures through an entire system when changes are made 
+to test data.
+* They cascade compile failures through the entire system, _even if unrelated
+refactors are made_. 
+
+That last one is one of the biggest problems. No matter how well you write 
+your test factories. If you make a change to a nested class, and that class is
+used in a test factory, then that change will cascade through every single 
+test factory that uses that object in any way. This is completely unsustainable
+for large systems.  
